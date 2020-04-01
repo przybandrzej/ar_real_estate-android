@@ -3,4 +3,13 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="wikitude_primary">#ffb300</color>
+    <color name="wikitude_primary_dark">#fb8c00</color>
+    <color name="wikitude_accent">#ffb300</color>
+    <color name="wikitude_primary_text">#212121</color>
+    <color name="wikitude_secondary_text">#757575</color>
+    <color name="wikitude_white">#ffffff</color>
+    <color name="wikitude_divider">#BDBDBD</color>
+    <color name="wikitude_is_device_not_supported">#888888</color>
 </resources>
