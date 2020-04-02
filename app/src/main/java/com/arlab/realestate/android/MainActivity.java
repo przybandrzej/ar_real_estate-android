@@ -1,4 +1,4 @@
-package com.arlab.realestate;
+package com.arlab.realestate.android;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.arlab.realestate.R;
 import com.wikitude.architect.ArchitectView;
 import com.wikitude.common.permission.PermissionManager;
 

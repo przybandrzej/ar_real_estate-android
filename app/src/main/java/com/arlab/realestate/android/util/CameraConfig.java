@@ -1,4 +1,4 @@
-package com.arlab.realestate.util;
+package com.arlab.realestate.android.util;
 
 import com.wikitude.common.camera.CameraSettings.CameraFocusMode;
 import com.wikitude.common.camera.CameraSettings.CameraResolution;

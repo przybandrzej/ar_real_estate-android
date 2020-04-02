@@ -1,4 +1,4 @@
-package com.arlab.realestate.extension;
+package com.arlab.realestate.android.extension;
 
 import android.app.Activity;
 import android.content.Intent;

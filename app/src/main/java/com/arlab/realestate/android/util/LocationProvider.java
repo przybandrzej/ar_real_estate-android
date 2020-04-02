@@ -1,4 +1,4 @@
-package com.arlab.realestate.util;
+package com.arlab.realestate.android.util;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

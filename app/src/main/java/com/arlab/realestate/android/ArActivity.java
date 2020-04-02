@@ -1,4 +1,4 @@
-package com.arlab.realestate;
+package com.arlab.realestate.android;
 
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -12,8 +12,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.arlab.realestate.util.CameraConfig;
-import com.arlab.realestate.util.LocationProvider;
+import com.arlab.realestate.R;
+import com.arlab.realestate.android.util.CameraConfig;
+import com.arlab.realestate.android.util.LocationProvider;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
 
