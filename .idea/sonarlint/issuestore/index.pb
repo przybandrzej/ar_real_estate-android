@@ -23,3 +23,9 @@ m
 build.gradle,f\0\f07866736216be0ee2aba49e392191aeae700a35
 @
 app/build.gradle,f\4\f4a01d6a4fcb971362ec00a83903fd3902f52164
+q
+Aapp/src/main/java/com/arlab/realestate/util/LocationProvider.java,2\7\2755e6d2dcebe393fc008eaecd19a26e28daee04
+B
+AR Real Estate.iml,3\3\33ffdfa354019678feeec54ab7634840752ab3a9
+h
+8app/src/main/java/com/arlab/realestate/MainActivity.java,d\d\dd18c54296b4ddbadba7dd088cdedc184ad151ad
