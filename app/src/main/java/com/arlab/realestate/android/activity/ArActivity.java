@@ -125,7 +125,7 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
         super.onDestroy();
         architectView.clearCache();
         architectView.onDestroy();
-        //javaScriptListener.onDestroy();
+        javaScriptListener.onDestroy();
     }
 
     @Override
