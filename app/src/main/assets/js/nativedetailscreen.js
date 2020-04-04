@@ -1,7 +1,7 @@
 /* Implementation of AR-Experience (aka "World"). */
-var World = {
+let World = {
 
-    maxRangeMeters: 1000,
+    maxRangeMeters: 300,
 
     /*
         User's latest known location, accessible via userLocation.latitude, userLocation.longitude,
@@ -126,17 +126,15 @@ var World = {
         distanceToUser() method all the time.
      */
     updateDistanceToUserValues: function updateDistanceToUserValuesFn() {
-        for (var i = 0; i < World.markerList.length; i++) {
+        for (let i = 0; i < World.markerList.length; i++) {
             World.markerList[i].distanceToUser = World.markerList[i].markerObject.locations[0].distanceToUser();
         }
     },
 
     /* Updates status message shown in small "i"-button aligned bottom center. */
     updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
-
-        var themeToUse = isWarning ? "e" : "c";
-        var iconToUse = isWarning ? "alert" : "info";
-
+        let themeToUse = isWarning ? "e" : "c";
+        let iconToUse = isWarning ? "alert" : "info";
         $("#status-message").html(message);
         $("#popupInfoButton").buttonMarkup({
             theme: themeToUse,
@@ -162,30 +160,18 @@ var World = {
         AR.platform.sendJSONObject(markerSelectedJSON);
     },
 
-    /* Fired when user pressed maker in cam. */
+    /* Fired when user pressed maker in cam.
+    * TODO change to a page */
     onMarkerSelected: function onMarkerSelectedFn(marker) {
         World.currentMarker = marker;
 
-        //TODO change to a page
-
-        /* Update panel values. */
         $("#poi-detail-title").html(marker.poiData.title);
         $("#poi-detail-description").html(marker.poiData.description);
 
-
-        /*
-            It's ok for AR.Location subclass objects to return a distance of `undefined`. In case such a distance
-            was calculated when all distances were queried in `updateDistanceToUserValues`, we recalculate this
-            specific distance before we update the UI.
-         */
-        if (undefined === marker.distanceToUser) {
+        if (marker.distanceToUser === undefined) {
             marker.distanceToUser = marker.markerObject.locations[0].distanceToUser();
         }
 
-        /*
-            Distance and altitude are measured in meters by the SDK. You may convert them to miles / feet if
-            required.
-        */
         let distanceToUserValue = (marker.distanceToUser > 999) ?
             ((marker.distanceToUser / 1000).toFixed(2) + " km") :
             (Math.round(marker.distanceToUser) + " m");
@@ -206,16 +192,13 @@ var World = {
     /* Screen was clicked but no geo-object was hit. */
     // TODO
     onScreenClick: function onScreenClickFn() {
-        /* You may handle clicks on empty AR space too. */
         if (World.currentMarker) {
             World.currentMarker.setDeselected(World.currentMarker);
         }
     },
 
-    /* Updates values show in "range panel". */
+    /* Updates values shown in "range panel". */
     updateRangeValues: function updateRangeValuesFn() {
-
-        /* Number of places within max-range. */
         let placesInRange = World.getNumberOfVisiblePlacesInRange(World.maxRangeMeters);
 
         /* Update UI labels accordingly. */
@@ -235,7 +218,6 @@ var World = {
 
     /* Returns number of places with same or lower distance than given range. */
     getNumberOfVisiblePlacesInRange: function getNumberOfVisiblePlacesInRangeFn(maxRangeMeters) {
-
         /* Sort markers by distance. */
         World.markerList.sort(World.sortByDistanceSorting);
 
@@ -245,7 +227,6 @@ var World = {
                 return i;
             }
         }
-
         /* In case no placemark is out of range -> all are visible. */
         return World.markerList.length;
     },
@@ -288,7 +269,6 @@ var World = {
         alert(error);
     }
 };
-
 
 /* Forward locationChanges to custom function. */
 AR.context.onLocationChanged = World.locationChanged;

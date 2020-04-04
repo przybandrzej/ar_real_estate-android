@@ -1,4 +1,4 @@
-var PoiRadar = {
+let PoiRadar = {
 
     hide: function hideFn() {
         AR.radar.enabled = false;
