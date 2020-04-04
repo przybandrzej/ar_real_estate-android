@@ -1,4 +1,4 @@
-package com.arlab.realestate.android;
+package com.arlab.realestate.android.activity;
 
 import android.hardware.SensorManager;
 import android.location.Location;
@@ -13,6 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.arlab.realestate.R;
+import com.arlab.realestate.android.util.ArchitectJavaScriptListener;
 import com.arlab.realestate.android.util.CameraConfig;
 import com.arlab.realestate.android.util.LocationProvider;
 import com.wikitude.architect.ArchitectStartupConfiguration;
@@ -30,6 +31,8 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
 
     private LocationProvider locationProvider;
 
+    private ArchitectJavaScriptListener javaScriptListener;
+
     /**
      * Error callback of the LocationProvider, noProvidersEnabled is called when neither location over GPS nor
      * location over the network are enabled by the device.
@@ -37,7 +40,10 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
     private final LocationProvider.ErrorCallback errorCallback = new LocationProvider.ErrorCallback() {
         @Override
         public void noProvidersEnabled() {
-            Toast.makeText(ArActivity.this, R.string.no_location_provider, Toast.LENGTH_LONG).show();
+            Toast.makeText(ArActivity.this,
+                    R.string.no_location_provider,
+                    Toast.LENGTH_LONG)
+                    .show();
         }
     };
 
@@ -51,7 +57,10 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
         @Override
         public void onCompassAccuracyChanged(int accuracy) {
             if ( accuracy < SensorManager.SENSOR_STATUS_ACCURACY_MEDIUM) { // UNRELIABLE = 0, LOW = 1, MEDIUM = 2, HIGH = 3
-                Toast.makeText(ArActivity.this, R.string.compass_accuracy_low, Toast.LENGTH_LONG ).show();
+                Toast.makeText(ArActivity.this,
+                        R.string.compass_accuracy_low,
+                        Toast.LENGTH_LONG )
+                        .show();
             }
         }
     };
@@ -77,6 +86,9 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
 
         setContentView(architectView);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        javaScriptListener = new ArchitectJavaScriptListener(this, architectView);
+        javaScriptListener.onCreate();
     }
 
     @Override
@@ -113,6 +125,7 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
         super.onDestroy();
         architectView.clearCache();
         architectView.onDestroy();
+        //javaScriptListener.onDestroy();
     }
 
     @Override
@@ -129,12 +142,19 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
      * The very basic LocationProvider setup of this sample app does not handle the following callbacks.
      * They should be used to handle changes in a production app.
      */
+    //TODO
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {}
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
 
     @Override
-    public void onProviderEnabled(String provider) {}
+    public void onProviderEnabled(String provider) {
+
+    }
 
     @Override
-    public void onProviderDisabled(String provider) {}
+    public void onProviderDisabled(String provider) {
+
+    }
 }

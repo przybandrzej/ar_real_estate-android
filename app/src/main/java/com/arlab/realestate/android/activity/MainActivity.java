@@ -1,4 +1,4 @@
-package com.arlab.realestate.android;
+package com.arlab.realestate.android.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,18 +29,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void start() {
-        final String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION};
-        permissionManager.checkPermissions(MainActivity.this, permissions, PermissionManager.WIKITUDE_PERMISSION_REQUEST, new PermissionManager.PermissionManagerCallback() {
+        final String[] permissions = new String[] {
+                Manifest.permission.CAMERA,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+        };
+        permissionManager.checkPermissions(MainActivity.this, permissions,
+                PermissionManager.WIKITUDE_PERMISSION_REQUEST,
+                new PermissionManager.PermissionManagerCallback() {
             @Override
             public void permissionsGranted(int requestCode) {
                 final Intent intent = new Intent(MainActivity.this, ArActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
+                // TODO make "finish()" to block the possibility to get back to this screen
             }
 
             @Override
             public void permissionsDenied(@NonNull String[] deniedPermissions) {
-                Toast.makeText(MainActivity.this, getString(R.string.permissions_denied) + Arrays.toString(deniedPermissions), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,
+                        getString(R.string.permissions_denied) + Arrays.toString(deniedPermissions),
+                        Toast.LENGTH_SHORT)
+                        .show();
             }
 
             @Override

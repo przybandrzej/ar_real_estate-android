@@ -83,7 +83,6 @@ lint/tmp/
 # lint/reports/
 
 
-*.iml
 .gradle
 /local.properties
 /.idea/caches

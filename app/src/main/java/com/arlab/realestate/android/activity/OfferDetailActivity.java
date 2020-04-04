@@ -1,10 +1,12 @@
-package com.arlab.realestate.android.extension;
+package com.arlab.realestate.android.activity;
 
 import android.app.Activity;
 import android.location.Location;
 import android.os.Bundle;
 
 import com.arlab.realestate.R;
+
+//TODO Another feature
 
 public class OfferDetailActivity extends Activity {
 

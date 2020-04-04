@@ -1,4 +1,4 @@
-package com.arlab.realestate.android.extension;
+package com.arlab.realestate.android.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,7 +20,7 @@ public class SamplePoiDetailActivity extends Activity {
         this.setContentView(R.layout.activity_poidetail);
 
         final Bundle extras = getIntent().getExtras();
-        ((TextView) findViewById(R.id.poi_detail_id_field_text_view)).setText(extras.getString(EXTRAS_KEY_POI_ID));
+        ((TextView) findViewById(R.id.poi_detail_id_field_text_view)).setText(String.valueOf(extras.getInt(EXTRAS_KEY_POI_ID)));
         ((TextView) findViewById(R.id.poi_detail_name_field_text_view)).setText(extras.getString(EXTRAS_KEY_POI_TITILE));
         ((TextView) findViewById(R.id.poi_detail_description_field_text_view)).setText(extras.getString(EXTRAS_KEY_POI_DESCR));
     }
