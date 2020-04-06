@@ -1,13 +1,8 @@
 
-H
-java:S1199'"-Extract this nested code block into a method.(¤…ŠÔùÿÿÿÿ
-a
-java:S1301&"KReplace this "switch" statement by "if" statements to increase readability.(Í€´·
-7	java:S131&""Add a default case to this switch.(Í€´·
-L
-java:S1128"*Remove this unused import 'java.util.Set'.(ö²„¤şÿÿÿÿ8Î¬ãŠ”.
-_
-java:S1128
-"BRemove this unused import 'com.arlab.realestate.data.model.Offer'.(„ªòö8Î¬ãŠ”.
-e
-java:S1128	"CRemove this unused import 'com.arlab.realestate.data.DataProvider'.(´ı¼€ùÿÿÿÿ8Î¬ãŠ”.
+h
+java:S1301#"KReplace this "switch" statement by "if" statements to increase readability.(Í€´·8ñõåß”.
+O
+java:S1199$"-Extract this nested code block into a method.(¤…ŠÔùÿÿÿÿ8ñõåß”.
+T
+java:S1128	"7Remove this unused import 'com.google.gson.JsonObject'.(µÊ´½8ñõåß”.
+>	java:S131#""Add a default case to this switch.(Í€´·8ñõåß”.

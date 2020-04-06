@@ -45,4 +45,4 @@ const myJsonData = {
             }
         }
     ]
-}
+};

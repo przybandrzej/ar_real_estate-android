@@ -9,6 +9,8 @@ let World = {
      */
     userLocation: null,
 
+    offersJson: null,
+
     /* You may request new data from server periodically, however: in this sample data is only requested once. */
     isRequestingData: false,
 
@@ -90,6 +92,7 @@ let World = {
                 + ', ' + poiArray[currentPlaceNr].location.longitude;
             World.markerList.push(new Marker(singlePoi));
         }
+        World.offersJson = poiData;
 
         World.updateDistanceToUserValues();
         World.updateStatusMessage(poisInfo);
@@ -152,9 +155,7 @@ let World = {
         const currentMarker = World.currentMarker;
         const markerSelectedJSON = {
             action: "present_poi_details",
-            id: currentMarker.poiData.id,
-            title: currentMarker.poiData.title,
-            description: currentMarker.poiData.description
+            id: currentMarker.poiData.id
         };
         //The sendJSONObject method can be used to send data from javascript to the native code.
         AR.platform.sendJSONObject(markerSelectedJSON);

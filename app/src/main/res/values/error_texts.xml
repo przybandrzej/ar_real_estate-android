@@ -4,17 +4,17 @@
     <string name="error_loading_ar_experience">Could not load AR experience.</string>
 
     <!-- SimpleGeoArActivity -->
-    <string name="compass_accuracy_low">Please re-calibrate compass by waving your device in a figure 8 motion.</string>
-    <string name="no_location_provider">Please enable GPS and Network positioning in your Settings and restart the Activity</string>
+    <string name="compass_accuracy_low" translatable="false">Please re-calibrate compass by waving your device in a figure 8 motion.</string>
+    <string name="no_location_provider" translatable="false">Please enable GPS and Network positioning in your Settings and restart the Activity</string>
 
     <!-- NativePoiDetailScreenExtension -->
-    <string name="error_parsing_json">Unable to parse json data from AR-Experience.</string>
+    <string name="error_parsing_json" translatable="false">Unable to parse json data from AR-Experience.</string>
 
     <!-- PoiDetailFromApplicationModelExtension -->
-    <string name="error_last_location">Could not load POIs, no location found</string>
+    <string name="error_last_location" translatable="false">Could not load POIs, no location found</string>
 
      <!-- Plugins -->
-    <string name="error_loading_plugins">Plugin failed to load.</string>
+    <string name="error_loading_plugins" translatable="false">Plugin failed to load.</string>
 
-    <string name="unexpected_error">Unexpected error:</string>
+    <string name="unexpected_error" translatable="false">Unexpected error:</string>
 </resources>

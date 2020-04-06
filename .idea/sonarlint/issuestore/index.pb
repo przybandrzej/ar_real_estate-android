@@ -41,8 +41,6 @@ Aapp/src/test/java/com/arlab/realestate/data/DataProviderTest.java,a\b\abaea497
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 „
-Tapp/src/main/java/com/arlab/realestate/android/activity/SamplePoiDetailActivity.java,2\6\26ec9617447d8bd5518235b936048f8263417372
-„
 Tapp/src/main/java/com/arlab/realestate/android/extension/ArchitectViewExtension.java,1\5\15a4bc8b73c1536e3627082de9efe75db2cbf9f9
 €
 Papp/src/main/java/com/arlab/realestate/android/activity/OfferDetailActivity.java,8\a\8af3ac42bddbaf51e765425d1d867975062045bf

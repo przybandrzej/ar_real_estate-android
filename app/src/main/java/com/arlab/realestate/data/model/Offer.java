@@ -7,6 +7,7 @@ import lombok.Value;
 @Builder
 public class Offer {
 
+    int id;
     String title;
     String description;
     int rooms;

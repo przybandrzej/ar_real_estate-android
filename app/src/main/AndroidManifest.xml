@@ -33,7 +33,7 @@
             android:name="com.arlab.realestate.android.activity.ArActivity"
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity
-                android:name="com.arlab.realestate.android.activity.SamplePoiDetailActivity"/>
+                android:name="com.arlab.realestate.android.activity.OfferDetailActivity"/>
 
         <meta-data android:name="com.google.ar.core" android:value="optional" />
     </application>
