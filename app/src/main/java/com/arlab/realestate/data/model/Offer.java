@@ -7,14 +7,15 @@ import lombok.Value;
 @Builder
 public class Offer {
 
-    int id;
+    String id;
     String title;
     String description;
     int rooms;
     double area;
-    BuildingTypeEnum buildingType;
+    String buildingType;
     Integer floor;
-    OfferPricingTypeEnum offerType;
+    String offerType;
     OfferLocation location;
     OfferPricing pricing;
+    String imageResource;
 }

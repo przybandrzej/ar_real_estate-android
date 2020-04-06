@@ -34,7 +34,7 @@ public class ArchitectJavaScriptListener extends ArchitectViewExtension implemen
     try {
       switch (jsonObject.getString("action")) {
         case "present_poi_details": {
-          poiDetailIntent.putExtra(OfferDetailActivity.EXTRAS_KEY_POI_ID, jsonObject.getInt("id"));
+          poiDetailIntent.putExtra(OfferDetailActivity.EXTRAS_KEY_POI_ID, jsonObject.getString("id"));
           activity.startActivity(poiDetailIntent);
           break;
         }

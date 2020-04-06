@@ -23,4 +23,7 @@
     <string name="offer_extraCosts">Extra costs</string>
     <string name="offer_image_description">Offer\'s image</string>
     <string name="offer_id_value">Offer ID</string>
+    <string name="offer_address">Address</string>
+
+    <string name="no_floor">No floor</string>
 </resources>

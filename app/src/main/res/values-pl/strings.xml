@@ -15,4 +15,8 @@
     <string name="offer_type">Typ</string>
     <string name="offer_pricingType">Typ opłat</string>
     <string name="offer_image_description">Obrazek</string>
+    <string name="offer_id_value">ID Oferty</string>
+    <string name="offer_address">Adres</string>
+
+    <string name="no_floor">Nie dotyczy</string>
 </resources>

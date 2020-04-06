@@ -9,9 +9,9 @@ import lombok.Value;
 @Builder
 public class OfferPricing {
 
-    OfferPricingTypeEnum type;
+    String type;
     BigDecimal price;
-    CurrencyEnum currency;
+    String currency;
     BigDecimal deposit;
     BigDecimal extraCosts;
 }

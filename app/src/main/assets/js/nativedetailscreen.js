@@ -81,7 +81,7 @@ let World = {
         /* Loop through POI-information and create an AR.GeoObject (=Marker) per POI. */
         for (let currentPlaceNr = 0; currentPlaceNr < poiArray.length; currentPlaceNr++) {
             let singlePoi = {
-                "id": parseInt(poiArray[currentPlaceNr].id),
+                "id": poiArray[currentPlaceNr].id,
                 "latitude": parseFloat(poiArray[currentPlaceNr].location.latitude),
                 "longitude": parseFloat(poiArray[currentPlaceNr].location.longitude),
                 "altitude": parseFloat(poiArray[currentPlaceNr].location.altitude),

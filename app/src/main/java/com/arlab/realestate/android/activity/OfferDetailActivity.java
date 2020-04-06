@@ -1,20 +1,25 @@
 package com.arlab.realestate.android.activity;
 
 import android.app.Activity;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.arlab.realestate.R;
 import com.arlab.realestate.data.DataProvider;
-import com.arlab.realestate.data.model.CurrencyEnum;
 import com.arlab.realestate.data.model.Offer;
+
+import java.io.IOException;
+import java.util.Objects;
 
 public class OfferDetailActivity extends Activity {
 
     public static final String EXTRAS_KEY_POI_ID = "id";
+    public static final String IMG_SRC_DIR = "img-offers/";
 
     private Offer offer;
-    private CurrencyEnum offerCurrency;
+    private DataProvider provider;
 
     private TextView tvOfferId;
     private TextView tvOfferTitle;
@@ -23,6 +28,7 @@ public class OfferDetailActivity extends Activity {
     private TextView tvOfferArea;
     private TextView tvOfferBuildingType;
     private TextView tvOfferFloor;
+    private TextView tvOfferAddress;
     private TextView tvOfferType;
     private TextView tvOfferPricingType;
     private TextView tvOfferPricingPrice;
@@ -34,14 +40,15 @@ public class OfferDetailActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.setContentView(R.layout.activity_offer_detail);
+        provider = new DataProvider(getApplicationContext());
 
         setUp();
         setContent();
     }
 
     private void setUp() {
-        offer = DataProvider.getInstance().getOfferById(getIntent().getExtras().getInt(EXTRAS_KEY_POI_ID), getAssets());
-        offerCurrency = offer.getPricing().getCurrency();
+        String id = Objects.requireNonNull(getIntent().getExtras()).getString(EXTRAS_KEY_POI_ID);
+        offer = provider.getOfferById(id);
         tvOfferId = findViewById(R.id.poi_detail_offerId_value_text_view);
         ivOfferImage = findViewById(R.id.poi_detail_image_image_view);
         tvOfferTitle = findViewById(R.id.poi_detail_title_value_text_view);
@@ -55,21 +62,67 @@ public class OfferDetailActivity extends Activity {
         tvOfferPricingPrice = findViewById(R.id.poi_detail_price_value_text_view);
         tvOfferPricingDeposit = findViewById(R.id.poi_detail_deposit_value_text_view);
         tvOfferPricingExtraCosts = findViewById(R.id.poi_detail_extraCosts_value_text_view);
+        tvOfferAddress = findViewById(R.id.poi_detail_address_value_text_view);
     }
 
     private void setContent() {
-        tvOfferId.setText(String.valueOf(offer.getId())); //TODO change ID from int to complex String
-        //ivOfferImage.setImageResource(); // TODO add image resources
+        if (offer == null) {
+            return;
+        }
+
+        tvOfferId.setText(offer.getId());
+
+        if(offer.getImageResource() != null && offer.getImageResource().isEmpty()) {
+            try {
+                ivOfferImage.setImageBitmap(
+                        BitmapFactory.decodeStream(
+                                getAssets().open(IMG_SRC_DIR + offer.getImageResource())
+                        ));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         tvOfferTitle.setText(offer.getTitle());
         tvOfferDescription.setText(offer.getDescription());
         tvOfferRooms.setText(String.valueOf(offer.getRooms()));
-        //tvOfferRooms.setText(offer.getArea()); // TODO change to String with m^2
-//        tvOfferBuildingType.setText(offer.getBuildingType().toString()); // TODO change to String
-        tvOfferFloor.setText(String.valueOf(offer.getFloor()));
-//        tvOfferType.setText(offer.getOfferType().toString()); // TODO change to String
-//        tvOfferPricingType.setText(offer.getPricing().getType().toString()); // TODO change to String
-        tvOfferPricingPrice.setText(String.valueOf(offer.getPricing().getPrice()));
-        tvOfferPricingDeposit.setText(String.valueOf(offer.getPricing().getDeposit()));
-        tvOfferPricingExtraCosts.setText(String.valueOf(offer.getPricing().getExtraCosts()));
+
+        tvOfferArea.setText(
+                new StringBuilder(String.valueOf(offer.getArea()))
+                        .append("m\u00B2"));
+        tvOfferBuildingType.setText(offer.getBuildingType());
+
+        if(offer.getFloor() == null) {
+            tvOfferFloor.setText(getString(R.string.no_floor));
+        } else {
+            tvOfferFloor.setText(String.valueOf(offer.getFloor()));
+        }
+
+        tvOfferAddress.setText(provider.getOffersAddress(offer).toString());
+        tvOfferType.setText(offer.getOfferType());
+        tvOfferPricingType.setText(offer.getPricing().getType());
+        tvOfferPricingPrice.setText(
+                new StringBuilder(String.valueOf(offer.getPricing().getPrice()))
+                        .append(" ").append(offer.getPricing().getCurrency()));
+
+        if(offer.getPricing().getDeposit() != null) {
+            tvOfferPricingDeposit.setText(
+                    new StringBuilder(String.valueOf(offer.getPricing().getDeposit()))
+                            .append(" ").append(offer.getPricing().getCurrency()));
+        } else {
+            tvOfferPricingDeposit.setText(
+                    new StringBuilder(String.valueOf(0))
+                            .append(" ").append(offer.getPricing().getCurrency()));
+        }
+
+        if(offer.getPricing().getExtraCosts() != null) {
+            tvOfferPricingExtraCosts.setText(
+                    new StringBuilder(String.valueOf(offer.getPricing().getExtraCosts()))
+                            .append(" ").append(offer.getPricing().getCurrency()));
+        } else {
+            tvOfferPricingExtraCosts.setText(
+                    new StringBuilder(String.valueOf(0))
+                            .append(" ").append(offer.getPricing().getCurrency()));
+        }
     }
 }

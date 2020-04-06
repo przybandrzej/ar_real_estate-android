@@ -157,16 +157,18 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/empty1"
+            android:id="@+id/poi_detail_address_key_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp"/>
+            android:padding="4dp"
+            android:text="@string/offer_address" />
 
         <TextView
-            android:id="@+id/empty2"
+            android:id="@+id/poi_detail_address_value_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="4dp" />
+            android:padding="4dp"
+            android:text="unknown" />
 
         <TextView
             android:id="@+id/poi_detail_extraCosts_key_text_view"
