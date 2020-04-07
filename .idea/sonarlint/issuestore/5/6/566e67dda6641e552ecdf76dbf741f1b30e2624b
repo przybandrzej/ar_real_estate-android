@@ -1,5 +1,7 @@
 
 E
-java:S11489"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8×à×‰”.
-R
-java:S1128"7Remove this unused import 'com.google.gson.JsonObject'.(µÊ´½8×à×‰”.
+java:S1148K"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Èßá€•.
+E
+java:S1148^"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ç·äâ”.
+S
+java:S26968"6Make the enclosing method "static" or remove this set.(ŞÎµ8ÙØç€•.

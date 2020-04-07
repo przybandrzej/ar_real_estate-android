@@ -1,11 +1,9 @@
 
-o	java:S115"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(“Ï‰®
-X	java:S125e"<This block of commented-out lines of code should be removed.(…˚‰Ç8’æ’Êì.
-ü
-java:S1186î"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¿ƒﬁí8´©ˇÜî.
-ü
-java:S1186ô"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Á≈Ÿ8ﬁœˇÜî.
-ü
-java:S1186û"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡Ô’“8‰ˇÜî.
 P
-java:S1135í"2Complete the task associated to this TODO comment.(ÖÔúÜ8¨∆√˚ì.
+java:S1135ë"2Complete the task associated to this TODO comment.(ÖÔúÜ8Ó•⁄ﬂî.
+ü
+java:S1186ì"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¿ƒﬁí8Ó•⁄ﬂî.
+ü
+java:S1186ù"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¡Ô’“8Ó•⁄ﬂî.
+ü
+java:S1186ò"ÄAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Á≈Ÿ8Ó•⁄ﬂî.

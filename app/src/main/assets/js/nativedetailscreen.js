@@ -1,6 +1,6 @@
 /* Implementation of AR-Experience (aka "World"). */
 let World = {
-
+//TODO add distance to user in marker info
     maxRangeMeters: 300,
 
     /*
@@ -8,6 +8,8 @@ let World = {
          userLocation.altitude.
      */
     userLocation: null,
+
+    offersJson: null,
 
     /* You may request new data from server periodically, however: in this sample data is only requested once. */
     isRequestingData: false,
@@ -79,7 +81,7 @@ let World = {
         /* Loop through POI-information and create an AR.GeoObject (=Marker) per POI. */
         for (let currentPlaceNr = 0; currentPlaceNr < poiArray.length; currentPlaceNr++) {
             let singlePoi = {
-                "id": parseInt(poiArray[currentPlaceNr].id),
+                "id": poiArray[currentPlaceNr].id,
                 "latitude": parseFloat(poiArray[currentPlaceNr].location.latitude),
                 "longitude": parseFloat(poiArray[currentPlaceNr].location.longitude),
                 "altitude": parseFloat(poiArray[currentPlaceNr].location.altitude),
@@ -90,6 +92,7 @@ let World = {
                 + ', ' + poiArray[currentPlaceNr].location.longitude;
             World.markerList.push(new Marker(singlePoi));
         }
+        World.offersJson = poiData;
 
         World.updateDistanceToUserValues();
         World.updateStatusMessage(poisInfo);
@@ -142,51 +145,19 @@ let World = {
         });
     },
 
-    /*
-        It may make sense to display POI details in your native style.
-        In this sample a very simple native screen opens when user presses the 'More' button in HTML.
-        This demoes the interaction between JavaScript and native code.
-    */
-    /* User clicked "More" button in POI-detail panel -> fire event to open native screen. */
-    onPoiDetailMoreButtonClicked: function onPoiDetailMoreButtonClickedFn() {
-        const currentMarker = World.currentMarker;
+    /* Fired when user pressed maker in cam. */
+    onMarkerSelected: function onMarkerSelectedFn(marker) {
+        World.currentMarker = marker;
         const markerSelectedJSON = {
-            action: "present_poi_details",
-            id: currentMarker.poiData.id,
-            title: currentMarker.poiData.title,
-            description: currentMarker.poiData.description
-        };
+                    action: "present_poi_details",
+                    id: World.currentMarker.poiData.id
+                };
         //The sendJSONObject method can be used to send data from javascript to the native code.
         AR.platform.sendJSONObject(markerSelectedJSON);
     },
 
-    /* Fired when user pressed maker in cam.
-    * TODO change to a page */
-    onMarkerSelected: function onMarkerSelectedFn(marker) {
-        World.currentMarker = marker;
-
-        $("#poi-detail-title").html(marker.poiData.title);
-        $("#poi-detail-description").html(marker.poiData.description);
-
-        if (marker.distanceToUser === undefined) {
-            marker.distanceToUser = marker.markerObject.locations[0].distanceToUser();
-        }
-
-        let distanceToUserValue = (marker.distanceToUser > 999) ?
-            ((marker.distanceToUser / 1000).toFixed(2) + " km") :
-            (Math.round(marker.distanceToUser) + " m");
-
-        $("#poi-detail-distance").html(distanceToUserValue);
-
-        /* Show panel. */
-        $("#panel-poidetail").panel("open", 123);
-
-        $(".ui-panel-dismiss").unbind("mousedown");
-
-        /* Deselect AR-marker when user exits detail screen div. */
-        $("#panel-poidetail").on("panelbeforeclose", function (event, ui) {
-            World.currentMarker.setDeselected(World.currentMarker);
-        });
+    onOfferDetailScreenDestroyed: function onOfferDetailScreenDestroyedFn() {
+        World.currentMarker.setDeselected(World.currentMarker);
     },
 
     /* Screen was clicked but no geo-object was hit. */

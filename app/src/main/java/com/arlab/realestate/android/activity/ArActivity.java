@@ -25,7 +25,7 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
 
     private static final String TAG = ArActivity.class.getSimpleName();
 
-    private static final String arExperience = "index.html";
+    private static final String AR_EXPERIENCE = "index.html";
 
     protected ArchitectView architectView;
 
@@ -97,10 +97,10 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
         architectView.onPostCreate();
 
         try {
-            architectView.load(arExperience);
+            architectView.load(AR_EXPERIENCE);
         } catch (IOException e) {
             Toast.makeText(this, getString(R.string.error_loading_ar_experience), Toast.LENGTH_SHORT).show();
-            Log.e(TAG, "Exception while loading arExperience " + arExperience + ".", e);
+            Log.e(TAG, "Exception while loading arExperience " + AR_EXPERIENCE + ".", e);
         }
     }
 
@@ -110,22 +110,23 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
         architectView.onResume();
         locationProvider.onResume();
         architectView.registerSensorAccuracyChangeListener(sensorAccuracyChangeListener);
+        architectView.callJavascript("World.onOfferDetailScreenDestroyed()");
     }
 
     @Override
     protected void onPause() {
-        super.onPause();
         architectView.onPause();
         locationProvider.onPause();
         architectView.unregisterSensorAccuracyChangeListener(sensorAccuracyChangeListener);
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        javaScriptListener.onDestroy();
         architectView.clearCache();
         architectView.onDestroy();
-        javaScriptListener.onDestroy();
+        super.onDestroy();
     }
 
     @Override

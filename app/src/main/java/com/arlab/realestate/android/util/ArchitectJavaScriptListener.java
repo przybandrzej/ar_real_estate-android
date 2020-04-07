@@ -2,18 +2,16 @@ package com.arlab.realestate.android.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.widget.Toast;
 import com.arlab.realestate.R;
-import com.arlab.realestate.android.activity.SamplePoiDetailActivity;
+import com.arlab.realestate.android.activity.OfferDetailActivity;
 import com.arlab.realestate.android.extension.ArchitectViewExtension;
-import com.arlab.realestate.data.DataProvider;
-import com.arlab.realestate.data.model.Offer;
+import com.google.gson.JsonObject;
 import com.wikitude.architect.ArchitectJavaScriptInterfaceListener;
 import com.wikitude.architect.ArchitectView;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Set;
 
 public class ArchitectJavaScriptListener extends ArchitectViewExtension implements ArchitectJavaScriptInterfaceListener {
 
@@ -33,13 +31,11 @@ public class ArchitectJavaScriptListener extends ArchitectViewExtension implemen
 
   @Override
   public void onJSONObjectReceived(JSONObject jsonObject) {
-    final Intent poiDetailIntent = new Intent(activity, SamplePoiDetailActivity.class);
+    final Intent poiDetailIntent = new Intent(activity, OfferDetailActivity.class);
     try {
       switch (jsonObject.getString("action")) {
         case "present_poi_details": {
-          poiDetailIntent.putExtra(SamplePoiDetailActivity.EXTRAS_KEY_POI_ID, jsonObject.getInt("id"));
-          poiDetailIntent.putExtra(SamplePoiDetailActivity.EXTRAS_KEY_POI_TITILE, jsonObject.getString("title"));
-          poiDetailIntent.putExtra(SamplePoiDetailActivity.EXTRAS_KEY_POI_DESCR, jsonObject.getString("description"));
+          poiDetailIntent.putExtra(OfferDetailActivity.EXTRAS_KEY_POI_ID, jsonObject.getString("id"));
           activity.startActivity(poiDetailIntent);
           break;
         }
