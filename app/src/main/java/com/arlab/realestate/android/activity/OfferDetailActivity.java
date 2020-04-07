@@ -125,10 +125,4 @@ public class OfferDetailActivity extends Activity {
                             .append(" ").append(offer.getPricing().getCurrency()));
         }
     }
-
-    @Override
-    protected void onDestroy() {
-        //
-        super.onDestroy();
-    }
 }
