@@ -2,6 +2,7 @@ package com.arlab.realestate.android.util;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.widget.Toast;
 import com.arlab.realestate.R;
 import com.arlab.realestate.android.activity.OfferDetailActivity;

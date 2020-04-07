@@ -110,6 +110,7 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
         architectView.onResume();
         locationProvider.onResume();
         architectView.registerSensorAccuracyChangeListener(sensorAccuracyChangeListener);
+        architectView.callJavascript("World.onOfferDetailScreenDestroyed()");
     }
 
     @Override

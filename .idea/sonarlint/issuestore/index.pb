@@ -19,18 +19,10 @@ B
 AR Real Estate.iml,3\3\33ffdfa354019678feeec54ab7634840752ab3a9
 t
 Dapp/src/main/java/com/arlab/realestate/data/model/OfferLocation.java,c\d\cd9974fa20c34d43dd605b59d1fbda4bd24abc0a
-{
-Kapp/src/main/java/com/arlab/realestate/data/model/OfferPricingTypeEnum.java,3\b\3b7ee8816e14ae536d2957b2172e7198b16167e0
 s
 Capp/src/main/java/com/arlab/realestate/data/model/OfferPricing.java,0\6\06cf47ca2886476cbc8f50b707297bd758e8974b
-s
-Capp/src/main/java/com/arlab/realestate/data/model/CurrencyEnum.java,c\1\c17a42af1df3243910fa56991802bfba49cadfa3
 u
 Eapp/src/main/java/com/arlab/realestate/data/model/OffersResponse.java,3\d\3d073a354a420fa53906421dcb84b1d17a13d89e
-w
-Gapp/src/main/java/com/arlab/realestate/data/model/BuildingTypeEnum.java,f\b\fb8ae881202cd31d18bbf2081a0b568eb60364ee
-t
-Dapp/src/main/java/com/arlab/realestate/data/model/OfferTypeEnum.java,5\1\519f9e9fc4fa74dde372639ba67e28a4b686e17f
 l
 <app/src/main/java/com/arlab/realestate/data/model/Offer.java,d\2\d2d9c8080a822f12b5c6fc553ca5a1c4ed220774
 q
@@ -52,3 +44,7 @@ y
 Iapp/src/main/java/com/arlab/realestate/android/activity/MainActivity.java,8\7\87e3f80e13c7882e2991543fc189f59d30404d22
 „
 Tapp/src/main/java/com/arlab/realestate/android/util/ArchitectJavaScriptListener.java,7\4\74ed53e471f023197fdaf5f94d4c48cd711f9970
+s
+Capp/src/main/java/com/arlab/realestate/data/model/OfferAddress.java,6\8\68abf79ef7c1244a73923a88bc25066873d0275f
+H
+app/libs/wikitudesdk.aar,9\3\93764f45847c98a73d51550fd6e7dc720cf422ef
