@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AR Real Estate</string>
+    <string name="offer_area">Powierzchnia</string>
+    <string name="offer_buildingType">Typ budynku</string>
+    <string name="offer_currency">Waluta</string>
+    <string name="offer_deposit">Depozyt/Kaucja</string>
+    <string name="offer_description">Opis</string>
+    <string name="offer_extraCosts">Dodatkowe koszty</string>
+    <string name="offer_floor">Piętro</string>
+    <string name="offer_id">ID</string>
+    <string name="offer_price">Cena</string>
+    <string name="offer_rooms">Pokoje</string>
+    <string name="offer_title">Tytuł</string>
+    <string name="offer_type">Typ</string>
+    <string name="offer_pricingType">Typ opłat</string>
+    <string name="offer_image_description">Obrazek</string>
+    <string name="offer_id_value">ID Oferty</string>
+    <string name="offer_address">Adres</string>
+
+    <string name="no_floor">Nie dotyczy</string>
+</resources>

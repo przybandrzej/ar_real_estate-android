@@ -28,7 +28,10 @@
     <!-- marker representation-->
     <script src="js/marker.js"></script>
 
-    <!-- World logic-->
+    <!-- Json offers data -->
+    <script type="text/javascript" src="location-sources/offers-0_1.js"></script>
+
+    <!-- World logic -->
     <script type="text/javascript" src="js/nativedetailscreen.js"></script>
 
     <!-- radar component -->
@@ -41,7 +44,7 @@
     <!-- header of UI holding feature buttons -->
     <div id="header-status" data-role="header" data-position="fixed" data-theme="c">
         <a href="javascript: World.showRange();" data-icon="gear" data-inline="true" data-mini="true">Range</a>
-        <a href="javascript: World.reloadPlaces()" data-icon="refresh">Reload</a>
+        <a href="javascript: World.reloadPlaces();" data-icon="refresh">Reload</a>
         <h1></h1>
     </div>
 
@@ -54,7 +57,7 @@
         <!-- small status-button -->
         <a style="text-align:right;" id="popupInfoButton" href="#popupInfo" data-rel="popup" data-role="button"
            class="ui-icon-alt" data-inline="true" data-transition="pop" data-icon="alert" data-theme="e"
-           data-iconpos="notext">Log</a> </p>
+           data-iconpos="notext">Log</a>
 
         <!-- popup displayed when button clicked -->
         <div data-role="popup" id="popupInfo" class="ui-content" data-theme="e" style="max-width:350px;">
@@ -64,33 +67,6 @@
     </div>
 
     <!-- PANELS, ONLY VISIBLE ON DEMAND -->
-    <!-- panel containing POI detail information -->
-    <div data-role="panel" id="panel-poidetail" data-position="right" data-display="overlay"
-         style="background-color:#F0F0F0;" data-theme="c">
-
-        <!-- header with "close" button -->
-        <div data-role="header" data-theme="c">
-            <h1>Details</h1>
-            <a href="#header" data-rel="close">Close</a>
-        </div>
-
-        <!-- content of POI detail page, you may also add thumbnails etc. here if you like -->
-        <div data-role="content">
-
-            <!-- title -->
-            <h3 id="poi-detail-title"></h3>
-
-            <!-- description -->
-            <h4 id="poi-detail-description"></h4>
-
-            <!-- distance -->
-            <h4>Distance: <a id="poi-detail-distance"></a></h4>
-
-            <!-- more button-->
-            <a href="javascript: World.onPoiDetailMoreButtonClicked();" data-role="button" data-icon="arrow-r"
-               data-iconpos="right" data-inline="true">More</a>
-        </div>
-    </div>
 
     <!-- range panel -->
     <div data-role="panel" id="panel-distance" data-position="left" data-display="overlay"
@@ -104,16 +80,10 @@
 
         <!-- distance information, calculated/updated in code  -->
         <div data-role="content">
-
             <!-- Range in m/km-->
-            <h4> Range: <a id="panel-distance-value"></a></h4>
-
+            <h4> Range: <a id="panel-distance-value"></a>m</h4>
             <!-- Amount of visible places -->
             <h4> Visible: <a id="panel-distance-places"></a></h4>
-
-            <!-- default slider -->
-            <input id="panel-distance-range" type="range" data-highlight="true" name="rangeSlider" min="0" max="100"
-                   value="100" data-show-value="false" step="5" data-popup-enabled="false" readonly="readonly">
         </div>
     </div>
 </div>

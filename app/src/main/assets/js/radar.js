@@ -1,4 +1,4 @@
-var PoiRadar = {
+let PoiRadar = {
 
     hide: function hideFn() {
         AR.radar.enabled = false;
@@ -43,6 +43,7 @@ var PoiRadar = {
 
     /* You may define some custom action when user pressed radar, e.g. display distance, custom filtering etc.. */
     clickedRadar: function clickedRadarFn() {
+        // TODO
         alert("Radar Clicked");
     },
 
