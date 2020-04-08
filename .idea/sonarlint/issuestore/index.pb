@@ -48,3 +48,5 @@ s
 Capp/src/main/java/com/arlab/realestate/data/model/OfferAddress.java,6\8\68abf79ef7c1244a73923a88bc25066873d0275f
 H
 app/libs/wikitudesdk.aar,9\3\93764f45847c98a73d51550fd6e7dc720cf422ef
+u
+Eapp/src/main/java/com/arlab/realestate/android/util/CameraConfig.java,c\0\c02d0012172ea61fe476ce1b86ca1f34dc5de9da

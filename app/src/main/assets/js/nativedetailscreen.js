@@ -1,31 +1,17 @@
 /* Implementation of AR-Experience (aka "World"). */
 let World = {
-//TODO add distance to user in marker info
-    maxRangeMeters: 300,
 
-    /*
-        User's latest known location, accessible via userLocation.latitude, userLocation.longitude,
-         userLocation.altitude.
-     */
+    maxRangeMeters: 200,
+    minScalingDistance: 10,
+    scalingFactor: 0.25,
     userLocation: null,
-
-    offersJson: null,
-
-    /* You may request new data from server periodically, however: in this sample data is only requested once. */
     isRequestingData: false,
-
-    /* True once data was fetched. */
     initiallyLoadedData: false,
 
-    /* Different POI-Marker assets. */
     markerDrawableIdle: null,
     markerDrawableSelected: null,
-    markerDrawableDirectionIndicator: null,
 
-    /* List of AR.GeoObjects that are currently shown in the scene / World. */
     markerList: [],
-
-    /* the last selected marker. */
     currentMarker: null,
 
     locationUpdateCounter: 0,
@@ -62,17 +48,23 @@ let World = {
         $('#radarContainer').unbind('click');
         $("#radarContainer").click(PoiRadar.clickedRadar);
 
+        /* Update culling distance, so only places within given range are rendered. */
+        AR.context.scene.cullingDistance = World.maxRangeMeters;
+        /* Update Marker's scaling factors and distance. */
+        AR.context.scene.maxScalingDistance = World.maxRangeMeters;
+        AR.context.scene.minScalingDistance = World.minScalingDistance;
+        AR.context.scene.scalingFactor = World.scalingFactor;
+        /* Update radar's maxDistance so radius of radar is updated too. */
+        PoiRadar.setMaxDistance(World.maxRangeMeters);
+
         /* Empty list of visible markers. */
         World.markerList = [];
 
         /* Start loading marker assets. */
-        World.markerDrawableIdle = new AR.ImageResource("assets/marker_idle.png", {
+        World.markerDrawableIdle = new AR.ImageResource("assets/marker.png", {
             onError: World.onError
         });
         World.markerDrawableSelected = new AR.ImageResource("assets/marker_selected.png", {
-            onError: World.onError
-        });
-        World.markerDrawableDirectionIndicator = new AR.ImageResource("assets/indi.png", {
             onError: World.onError
         });
 
@@ -86,14 +78,19 @@ let World = {
                 "longitude": parseFloat(poiArray[currentPlaceNr].location.longitude),
                 "altitude": parseFloat(poiArray[currentPlaceNr].location.altitude),
                 "title": poiArray[currentPlaceNr].title,
-                "description": poiArray[currentPlaceNr].description
+                "rooms": poiArray[currentPlaceNr].rooms,
+                "area": parseFloat(poiArray[currentPlaceNr].area) + "m\u00B2",
+                "offerType": poiArray[currentPlaceNr].offerType,
+                "price": poiArray[currentPlaceNr].pricing.price + " " + poiArray[currentPlaceNr].pricing.currency
             };
+            if("floor" in poiArray[currentPlaceNr]) {
+                singlePoi["floor"] = parseInt(poiArray[currentPlaceNr].floor)
+            }
+
             poisInfo = poisInfo + '</br>' + poiArray[currentPlaceNr].location.latitude
                 + ', ' + poiArray[currentPlaceNr].location.longitude;
             World.markerList.push(new Marker(singlePoi));
         }
-        World.offersJson = poiData;
-
         World.updateDistanceToUserValues();
         World.updateStatusMessage(poisInfo);
     },
@@ -112,10 +109,6 @@ let World = {
             World.requestDataFromLocal();
             World.initiallyLoadedData = true;
         } else if (World.locationUpdateCounter === 0) {
-            /*
-                Update placemark distance information frequently, you may also update distances only every 10m with
-                some more effort.
-             */
             World.updateDistanceToUserValues();
         }
 
@@ -130,7 +123,10 @@ let World = {
      */
     updateDistanceToUserValues: function updateDistanceToUserValuesFn() {
         for (let i = 0; i < World.markerList.length; i++) {
-            World.markerList[i].distanceToUser = World.markerList[i].markerObject.locations[0].distanceToUser();
+            let marker = World.markerList[i];
+            let distance = marker.markerObject.locations[0].distanceToUser();
+            marker.distanceToUser = distance;
+            marker.updateDistanceLabel(marker, distance);
         }
     },
 
@@ -157,7 +153,9 @@ let World = {
     },
 
     onOfferDetailScreenDestroyed: function onOfferDetailScreenDestroyedFn() {
-        World.currentMarker.setDeselected(World.currentMarker);
+        if(World.currentMarker !== null) {
+            World.currentMarker.setDeselected(World.currentMarker);
+        }
     },
 
     /* Screen was clicked but no geo-object was hit. */
@@ -174,31 +172,21 @@ let World = {
 
         /* Update UI labels accordingly. */
         $("#panel-distance-value").html(World.maxRangeMeters);
-        $("#panel-distance-places").html((placesInRange != 1) ?
+        $("#panel-distance-places").html((placesInRange !== 1) ?
             (placesInRange + " Places") : (placesInRange + " Place"));
 
-        World.updateStatusMessage((placesInRange != 1) ?
+        World.updateStatusMessage((placesInRange !== 1) ?
             (placesInRange + " places loaded") : (placesInRange + " place loaded"));
-
-        /* Update culling distance, so only places within given range are rendered. */
-        AR.context.scene.cullingDistance = Math.max(World.maxRangeMeters, 1);
-
-        /* Update radar's maxDistance so radius of radar is updated too. */
-        PoiRadar.setMaxDistance(Math.max(World.maxRangeMeters, 1));
     },
 
     /* Returns number of places with same or lower distance than given range. */
     getNumberOfVisiblePlacesInRange: function getNumberOfVisiblePlacesInRangeFn(maxRangeMeters) {
-        /* Sort markers by distance. */
         World.markerList.sort(World.sortByDistanceSorting);
-
-        /* Loop through list and stop once a placemark is out of range ( -> very basic implementation ). */
         for (let i = 0; i < World.markerList.length; i++) {
             if (World.markerList[i].distanceToUser > maxRangeMeters) {
                 return i;
             }
         }
-        /* In case no placemark is out of range -> all are visible. */
         return World.markerList.length;
     },
 
@@ -217,7 +205,7 @@ let World = {
         });
     },
 
-    /* Display range slider. */
+    /* Display range panel. */
     showRange: function showRangeFn() {
         World.updateRangeValues();
         World.handlePanelMovements();

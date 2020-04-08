@@ -1,7 +1,7 @@
 
-Q
-java:S2696"6Make the enclosing method "static" or remove this set.(ŞÎµ8ÙØç€•.
-C
-java:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ç·äâ”.
-C
-java:S1148"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Èßá€•.
+S
+java:S26968"6Make the enclosing method "static" or remove this set.(ŞÎµ8ÙØç€•.
+E
+java:S1148K"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Ç·äâ”.
+E
+java:S1148^"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8Èßá€•.

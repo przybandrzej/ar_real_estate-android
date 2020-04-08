@@ -6,70 +6,97 @@ function Marker(poiData) {
     this.poiData = poiData;
     this.isSelected = false;
 
-    /*
-        With AR.PropertyAnimations you are able to animate almost any property of ARchitect objects. This sample
-        will animate the opacity of both background drawables so that one will fade out while the other one fades
-        in. The scaling is animated too. The marker size changes over time so the labels need to be animated too in
-        order to keep them relative to the background drawable. AR.AnimationGroups are used to synchronize all
-        animations in parallel or sequentially.
-    */
     this.animationGroupIdle = null;
     this.animationGroupSelected = null;
 
-    /* Create the AR.GeoLocation from the poi data. */
-    let markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
+    const markerLocation = new AR.GeoLocation(poiData.latitude, poiData.longitude, poiData.altitude);
 
-    /* Create an AR.ImageDrawable for the marker in idle state. */
     this.markerDrawableIdle = new AR.ImageDrawable(World.markerDrawableIdle, 2.5, {
         zOrder: 0,
-        opacity: 1.0,
-        /*
-            To react on user interaction, an onClick property can be set for each AR.Drawable. The property is a
-            function which will be called each time the user taps on the drawable. The function called on each tap
-            is returned from the following helper function defined in marker.js. The function returns a function
-            which checks the selected state with the help of the variable isSelected and executes the appropriate
-            function. The clicked marker is passed as an argument.
-        */
+        opacity: 0.8,
         onClick: Marker.prototype.getOnClickTrigger(this)
     });
 
-    /* Create an AR.ImageDrawable for the marker in selected state. */
     this.markerDrawableSelected = new AR.ImageDrawable(World.markerDrawableSelected, 2.5, {
         zOrder: 0,
         opacity: 0.0,
         onClick: null
     });
 
-    /* Create an AR.Label for the marker's title . */
-    this.titleLabel = new AR.Label(poiData.title.trunc(10), 1, {
+    this.titleLabels = [];
+    let titleStrings = wrapString(poiData.title, 24);
+
+    this.titleLabels.push(new AR.Label(titleStrings[0], 0.4, {
         zOrder: 1,
+        verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
+        horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
         translate: {
-            y: 0.55
+            x: -1.7,
+            y: 1
         },
         style: {
-            textColor: '#FFFFFF',
-            fontStyle: AR.CONST.FONT_STYLE.BOLD
+            textColor: '#FFFFFF'
         }
-    });
+    }));
 
-    this.descriptionLabel = new AR.Label(poiData.description.trunc(15), 0.8, {
+    if (titleStrings.length > 1) {
+        this.titleLabels.push(new AR.Label(titleStrings[1], 0.4, {
+            zOrder: 1,
+            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
+            horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
+            translate: {
+                x: -1.7,
+                y: 0.6
+            },
+            style: {
+                textColor: '#FFFFFF'
+            }
+        }));
+    }
+
+    this.priceLabel = new AR.Label(
+        String.fromCodePoint(0x1F4B0) + " " + poiData.price + " / " + poiData.offerType, 0.4, {
+            zOrder: 1,
+            verticalAnchor: AR.CONST.VERTICAL_ANCHOR.BOTTOM,
+            horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
+            translate: {
+                x: -2.2,
+                y: -0.35
+            },
+            style: {
+                textColor: '#FFFFFF'
+            }
+        });
+
+    let numbers = "Rooms: " + poiData.rooms;
+    if ("floor" in poiData) {
+        numbers = numbers + " / Floor: " + poiData.floor;
+    }
+
+    this.numbersLabel = new AR.Label(numbers, 0.3, {
         zOrder: 1,
+        verticalAnchor: AR.CONST.VERTICAL_ANCHOR.BOTTOM,
+        horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
         translate: {
-            y: -0.55
+            x: -2.2,
+            y: -0.65
         },
         style: {
             textColor: '#FFFFFF'
         }
     });
 
-    /*
-        Create an AR.ImageDrawable using the AR.ImageResource for the direction indicator which was created in the
-        World. Set options regarding the offset and anchor of the image so that it will be displayed correctly on
-        the edge of the screen.
-    */
-    this.directionIndicatorDrawable = new AR.ImageDrawable(World.markerDrawableDirectionIndicator, 0.1, {
-        enabled: false,
-        verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP
+    this.distanceLabel = new AR.Label("Distance: " + markerLocation.distanceToUser().toFixed() + "m", 0.3, {
+        zOrder: 1,
+        verticalAnchor: AR.CONST.VERTICAL_ANCHOR.BOTTOM,
+        horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
+        translate: {
+            x: -2.2,
+            y: -0.96
+        },
+        style: {
+            textColor: '#FFFFFF'
+        }
     });
 
     /*
@@ -102,40 +129,25 @@ function Marker(poiData) {
     this.radardrawablesSelected = [];
     this.radardrawablesSelected.push(this.radarCircleSelected);
 
-    /*
-        Create the AR.GeoObject with the drawable objects and define the AR.ImageDrawable as an indicator target on
-        the marker AR.GeoObject. The direction indicator is displayed automatically when necessary. AR.Drawable
-        subclasses (e.g. AR.Circle) can be used as direction indicators.
-    */
+    let cam = [this.markerDrawableIdle, this.markerDrawableSelected, this.titleLabels[0],
+        this.priceLabel, this.numbersLabel, this.distanceLabel];
+    if(this.titleLabels.length === 2) {
+        cam.push(this.titleLabels[1]);
+    }
     this.markerObject = new AR.GeoObject(markerLocation, {
         drawables: {
-            cam: [this.markerDrawableIdle, this.markerDrawableSelected, this.titleLabel, this.descriptionLabel],
-            indicator: this.directionIndicatorDrawable,
+            cam: cam,
             radar: this.radardrawables
         }
     });
     return this;
 }
 
-Marker.prototype.getOnClickTrigger = function(marker) {
-
-    /*
-        The setSelected and setDeselected functions are prototype Marker functions.
-
-        Both functions perform the same steps but inverted, hence only one function (setSelected) is covered in
-        detail. Three steps are necessary to select the marker. First the state will be set appropriately. Second
-        the background drawable will be enabled and the standard background disabled. This is done by setting the
-        opacity property to 1.0 for the visible state and to 0.0 for an invisible state. Third the onClick function
-        is set only for the background drawable of the selected marker.
-    */
-
-    return function() {
-
+Marker.prototype.getOnClickTrigger = function (marker) {
+    return function () {
         if (!Marker.prototype.isAnyAnimationRunning(marker)) {
             if (marker.isSelected) {
-
                 Marker.prototype.setDeselected(marker);
-
             } else {
                 Marker.prototype.setSelected(marker);
                 try {
@@ -143,14 +155,29 @@ Marker.prototype.getOnClickTrigger = function(marker) {
                 } catch (err) {
                     alert(err);
                 }
-
             }
         } else {
             AR.logger.debug('a animation is already running');
         }
-
         return true;
     };
+};
+
+Marker.prototype.updateDistanceLabel = function(marker, distance) {
+    marker.distanceLabel.destroy();
+    marker.distanceLabel = new AR.Label("Distance: " + distance.toFixed() + "m", 0.3, {
+        zOrder: 1,
+        verticalAnchor: AR.CONST.VERTICAL_ANCHOR.BOTTOM,
+        horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
+        translate: {
+            x: -2.2,
+            y: -0.96
+        },
+        style: {
+            textColor: '#FFFFFF'
+        }
+    });
+    marker.markerObject.drawables.addCamDrawable(marker.distanceLabel);
 };
 
 /*
@@ -158,7 +185,7 @@ Marker.prototype.getOnClickTrigger = function(marker) {
     end-value and the duration of the animation. Animations can be seen as functions defining the progress of the
     change on the value. The Animation can be parametrized via easing curves.
 */
-Marker.prototype.setSelected = function(marker) {
+Marker.prototype.setSelected = function (marker) {
 
     marker.isSelected = true;
 
@@ -183,10 +210,19 @@ Marker.prototype.setSelected = function(marker) {
             marker.markerDrawableSelected, 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
         /* Create AR.PropertyAnimation that animates the scaling of the title label to 1.2. */
         let titleLabelResizeAnimationX = new AR.PropertyAnimation(
-            marker.titleLabel, 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
+            marker.titleLabels[0], 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
+        let title2LabelResizeAnimationX = null;
+        if (marker.titleLabels.length > 1) {
+            title2LabelResizeAnimationX = new AR.PropertyAnimation(
+                marker.titleLabels[1], 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
+        }
         /* Create AR.PropertyAnimation that animates the scaling of the description label to 1.2. */
-        let descriptionLabelResizeAnimationX = new AR.PropertyAnimation(
-            marker.descriptionLabel, 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
+        let priceLabelResizeAnimationX = new AR.PropertyAnimation(
+            marker.priceLabel, 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
+        let distanceLabelResizeAnimationX = new AR.PropertyAnimation(
+            marker.distanceLabel, 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
+        let numbersLabelResizeAnimationX = new AR.PropertyAnimation(
+            marker.numbersLabel, 'scale.x', null, 1.2, resizeAnimationDuration, easingCurve);
 
         /* Create AR.PropertyAnimation that animates the scaling of the idle-state-drawable to 1.2. */
         let idleDrawableResizeAnimationY = new AR.PropertyAnimation(
@@ -196,27 +232,44 @@ Marker.prototype.setSelected = function(marker) {
             marker.markerDrawableSelected, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
         /* Create AR.PropertyAnimation that animates the scaling of the title label to 1.2. */
         let titleLabelResizeAnimationY = new AR.PropertyAnimation(
-            marker.titleLabel, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
+            marker.titleLabels[0], 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
+        let title2LabelResizeAnimationY = null;
+        if (marker.titleLabels.length > 1) {
+            title2LabelResizeAnimationY = new AR.PropertyAnimation(
+                marker.titleLabels[1], 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
+        }
         /* Create AR.PropertyAnimation that animates the scaling of the description label to 1.2. */
-        let descriptionLabelResizeAnimationY = new AR.PropertyAnimation(
-            marker.descriptionLabel, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
+        let priceLabelResizeAnimationY = new AR.PropertyAnimation(
+            marker.priceLabel, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
+        let distanceLabelResizeAnimationY = new AR.PropertyAnimation(
+            marker.distanceLabel, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
+        let numbersLabelResizeAnimationY = new AR.PropertyAnimation(
+            marker.numbersLabel, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
 
-        /*
-            There are two types of AR.AnimationGroups. Parallel animations are running at the same time,
-            sequentials are played one after another. This example uses a parallel AR.AnimationGroup.
-        */
-        marker.animationGroupSelected = new AR.AnimationGroup(AR.CONST.ANIMATION_GROUP_TYPE.PARALLEL, [
+        let animArray = [
             hideIdleDrawableAnimation,
             showSelectedDrawableAnimation,
             idleDrawableResizeAnimationX,
             selectedDrawableResizeAnimationX,
             titleLabelResizeAnimationX,
-            descriptionLabelResizeAnimationX,
+            priceLabelResizeAnimationX,
+            distanceLabelResizeAnimationX,
+            numbersLabelResizeAnimationX,
             idleDrawableResizeAnimationY,
             selectedDrawableResizeAnimationY,
             titleLabelResizeAnimationY,
-            descriptionLabelResizeAnimationY
-        ]);
+            priceLabelResizeAnimationY,
+            distanceLabelResizeAnimationY,
+            numbersLabelResizeAnimationY];
+        if (title2LabelResizeAnimationX !== null && title2LabelResizeAnimationY !== null) {
+            animArray.push(title2LabelResizeAnimationX);
+            animArray.push(title2LabelResizeAnimationY);
+        }
+        /*
+            There are two types of AR.AnimationGroups. Parallel animations are running at the same time,
+            sequentials are played one after another.
+        */
+        marker.animationGroupSelected = new AR.AnimationGroup(AR.CONST.ANIMATION_GROUP_TYPE.PARALLEL, animArray);
     }
 
     /* Removes function that is set on the onClick trigger of the idle-state marker. */
@@ -224,13 +277,11 @@ Marker.prototype.setSelected = function(marker) {
     /* Sets the click trigger function for the selected state marker. */
     marker.markerDrawableSelected.onClick = Marker.prototype.getOnClickTrigger(marker);
 
-    /* Enables the direction indicator drawable for the current marker. */
-    marker.directionIndicatorDrawable.enabled = true;
     /* Starts the selected-state animation. */
     marker.animationGroupSelected.start();
 };
 
-Marker.prototype.setDeselected = function(marker) {
+Marker.prototype.setDeselected = function (marker) {
 
     marker.isSelected = false;
 
@@ -253,10 +304,19 @@ Marker.prototype.setDeselected = function(marker) {
             marker.markerDrawableSelected, 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
         /* Create AR.PropertyAnimation that animates the scaling of the title label to 1.0. */
         let titleLabelResizeAnimationX = new AR.PropertyAnimation(
-            marker.titleLabel, 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+            marker.titleLabels[0], 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+        let title2LabelResizeAnimationX = null;
+        if (marker.titleLabels.length > 1) {
+            title2LabelResizeAnimationX = new AR.PropertyAnimation(
+                marker.titleLabels[1], 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+        }
         /* Create AR.PropertyAnimation that animates the scaling of the description label to 1.0. */
-        let descriptionLabelResizeAnimationX = new AR.PropertyAnimation(
-            marker.descriptionLabel, 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+        let priceLabelResizeAnimationX = new AR.PropertyAnimation(
+            marker.priceLabel, 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+        let distanceLabelResizeAnimationX = new AR.PropertyAnimation(
+            marker.distanceLabel, 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+        let numbersLabelResizeAnimationX = new AR.PropertyAnimation(
+            marker.numbersLabel, 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
         /* Create AR.PropertyAnimation that animates the scaling of the idle-state-drawable to 1.0. */
         let idleDrawableResizeAnimationY = new AR.PropertyAnimation(
             marker.markerDrawableIdle, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
@@ -265,27 +325,45 @@ Marker.prototype.setDeselected = function(marker) {
             marker.markerDrawableSelected, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
         /* Create AR.PropertyAnimation that animates the scaling of the title label to 1.0. */
         let titleLabelResizeAnimationY = new AR.PropertyAnimation(
-            marker.titleLabel, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
+            marker.titleLabels[0], 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
+        let title2LabelResizeAnimationY = null;
+        if (marker.titleLabels.length > 1) {
+            title2LabelResizeAnimationY = new AR.PropertyAnimation(
+                marker.titleLabels[1], 'scale.x', null, 1.0, resizeAnimationDuration, easingCurve);
+        }
         /* Create AR.PropertyAnimation that animates the scaling of the description label to 1.0. */
-        let descriptionLabelResizeAnimationY = new AR.PropertyAnimation(
-            marker.descriptionLabel, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
+        let priceLabelResizeAnimationY = new AR.PropertyAnimation(
+            marker.priceLabel, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
+        let distanceLabelResizeAnimationY = new AR.PropertyAnimation(
+            marker.distanceLabel, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
+        let numbersLabelResizeAnimationY = new AR.PropertyAnimation(
+            marker.numbersLabel, 'scale.y', null, 1.0, resizeAnimationDuration, easingCurve);
 
         /*
             There are two types of AR.AnimationGroups. Parallel animations are running at the same time,
             sequentials are played one after another. This example uses a parallel AR.AnimationGroup.
         */
-        marker.animationGroupIdle = new AR.AnimationGroup(AR.CONST.ANIMATION_GROUP_TYPE.PARALLEL, [
+        let animArray = [
             showIdleDrawableAnimation,
             hideSelectedDrawableAnimation,
             idleDrawableResizeAnimationX,
             selectedDrawableResizeAnimationX,
             titleLabelResizeAnimationX,
-            descriptionLabelResizeAnimationX,
+            priceLabelResizeAnimationX,
+            distanceLabelResizeAnimationX,
+            numbersLabelResizeAnimationX,
             idleDrawableResizeAnimationY,
             selectedDrawableResizeAnimationY,
             titleLabelResizeAnimationY,
-            descriptionLabelResizeAnimationY
-        ]);
+            priceLabelResizeAnimationY,
+            distanceLabelResizeAnimationY,
+            numbersLabelResizeAnimationY
+        ];
+        if(title2LabelResizeAnimationX !== null && title2LabelResizeAnimationY !== null) {
+            animArray.push(title2LabelResizeAnimationX);
+            animArray.push(title2LabelResizeAnimationY);
+        }
+        marker.animationGroupIdle = new AR.AnimationGroup(AR.CONST.ANIMATION_GROUP_TYPE.PARALLEL, animArray);
     }
 
     /* Sets the click trigger function for the idle state marker. */
@@ -293,13 +371,11 @@ Marker.prototype.setDeselected = function(marker) {
     /* Removes function that is set on the onClick trigger of the selected-state marker. */
     marker.markerDrawableSelected.onClick = null;
 
-    /* Disables the direction indicator drawable for the current marker. */
-    marker.directionIndicatorDrawable.enabled = false;
     /* Starts the idle-state animation. */
     marker.animationGroupIdle.start();
 };
 
-Marker.prototype.isAnyAnimationRunning = function(marker) {
+Marker.prototype.isAnyAnimationRunning = function (marker) {
 
     if (marker.animationGroupIdle === null || marker.animationGroupSelected === null) {
         return false;
@@ -308,7 +384,38 @@ Marker.prototype.isAnyAnimationRunning = function(marker) {
     }
 };
 
-/* Will truncate all strings longer than given max-length "n". e.g. "foobar".trunc(3) -> "foo...". */
-String.prototype.trunc = function(n) {
+/* Will truncate all strings longer than given max-length "n". */
+String.prototype.trunc = function (n) {
     return this.substr(0, n - 1) + (this.length > n ? '...' : '');
+};
+
+/* Helper function to split long String to two Strings. */
+wrapString = function (text, wrapLength) {
+    let array = [];
+    if(text.length > wrapLength) {
+        let char = text.charAt(wrapLength);
+        if(char === ' ') {
+            text = text.slice(0, wrapLength) + text.slice(wrapLength+1, text.length);
+            array.push(text.substr(0, wrapLength));
+            if(text.length < 2*wrapLength) {
+                let rest = text.length - wrapLength;
+                array.push(text.substr(wrapLength, rest));
+            } else {
+                array.push(text.substr(wrapLength, text.length - wrapLength).trunc(wrapLength));
+            }
+        } else {
+            let spaceIndex = text.substr(0, wrapLength).lastIndexOf(' ');
+            text = text.slice(0, spaceIndex) + text.slice(spaceIndex+1, text.length);
+            array.push(text.substr(0, spaceIndex));
+            if(text.length < spaceIndex + wrapLength) {
+                let rest = text.length - spaceIndex;
+                array.push(text.substr(spaceIndex, rest));
+            } else {
+                array.push(text.substr(spaceIndex, text.length - spaceIndex).trunc(wrapLength));
+            }
+        }
+    } else {
+        array.push(text);
+    }
+    return array;
 };
