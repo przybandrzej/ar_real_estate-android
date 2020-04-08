@@ -45,6 +45,29 @@ const myJsonData = {
                 "currency": "PLN",
                 "extraCosts": 10000
             }
+        },
+        {
+            "id": "O0003",
+            "title": "Kolejny dom na ulicy Pogodnej",
+            "description": "This is a description",
+            "rooms": 3,
+            "area": 78,
+            "buildingType": "block",
+            "floor": 3,
+            "offerType": "rental",
+            "image": "IMG_OFFER_O0001.jpg",
+            "location": {
+                "latitude": 52.119383,
+                "longitude": 16.129387,
+                "altitude": 78
+            },
+            "pricing": {
+                "type": "monthly",
+                "price": 2500,
+                "currency": "PLN",
+                "deposit": 2500,
+                "extraCosts": 0
+            }
         }
     ]
 };

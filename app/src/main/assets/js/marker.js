@@ -23,9 +23,10 @@ function Marker(poiData) {
         onClick: null
     });
 
-    // TODO wrap text instead of substring
     this.titleLabels = [];
-    this.titleLabels.push(new AR.Label(poiData.title.substr(0,24), 0.4, {
+    let titleStrings = wrapString(poiData.title, 24);
+
+    this.titleLabels.push(new AR.Label(titleStrings[0], 0.4, {
         zOrder: 1,
         verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
         horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
@@ -38,8 +39,8 @@ function Marker(poiData) {
         }
     }));
 
-    if (poiData.title.length > 24) {
-        this.titleLabels.push(new AR.Label(poiData.title.substring(24, poiData.title.length), 0.4, {
+    if (titleStrings.length > 1) {
+        this.titleLabels.push(new AR.Label(titleStrings[1], 0.4, {
             zOrder: 1,
             verticalAnchor: AR.CONST.VERTICAL_ANCHOR.TOP,
             horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
@@ -128,11 +129,6 @@ function Marker(poiData) {
     this.radardrawablesSelected = [];
     this.radardrawablesSelected.push(this.radarCircleSelected);
 
-    /*
-        Create the AR.GeoObject with the drawable objects and define the AR.ImageDrawable as an indictor target on
-        the marker AR.GeoObject. The direction indicator is displayed automatically when necessary. AR.Drawable
-        subclasses (e.g. AR.Circle) can be used as direction indicators.
-    */
     let cam = [this.markerDrawableIdle, this.markerDrawableSelected, this.titleLabels[0],
         this.priceLabel, this.numbersLabel, this.distanceLabel];
     if(this.titleLabels.length === 2) {
@@ -148,17 +144,6 @@ function Marker(poiData) {
 }
 
 Marker.prototype.getOnClickTrigger = function (marker) {
-
-    /*
-        The setSelected and setDeselected functions are prototype Marker functions.
-
-        Both functions perform the same steps but inverted, hence only one function (setSelected) is covered in
-        detail. Three steps are necessary to select the marker. First the state will be set appropriately. Second
-        the background drawable will be enabled and the standard background disabled. This is done by setting the
-        opacity property to 1.0 for the visible state and to 0.0 for an invisible state. Third the onClick function
-        is set only for the background drawable of the selected marker.
-    */
-
     return function () {
         if (!Marker.prototype.isAnyAnimationRunning(marker)) {
             if (marker.isSelected) {
@@ -244,10 +229,6 @@ Marker.prototype.setSelected = function (marker) {
         let numbersLabelResizeAnimationY = new AR.PropertyAnimation(
             marker.numbersLabel, 'scale.y', null, 1.2, resizeAnimationDuration, easingCurve);
 
-        /*
-            There are two types of AR.AnimationGroups. Parallel animations are running at the same time,
-            sequentials are played one after another. This example uses a parallel AR.AnimationGroup.
-        */
         let animArray = [
             hideIdleDrawableAnimation,
             showSelectedDrawableAnimation,
@@ -267,6 +248,10 @@ Marker.prototype.setSelected = function (marker) {
             animArray.push(title2LabelResizeAnimationX);
             animArray.push(title2LabelResizeAnimationY);
         }
+        /*
+            There are two types of AR.AnimationGroups. Parallel animations are running at the same time,
+            sequentials are played one after another.
+        */
         marker.animationGroupSelected = new AR.AnimationGroup(AR.CONST.ANIMATION_GROUP_TYPE.PARALLEL, animArray);
     }
 
@@ -385,4 +370,35 @@ Marker.prototype.isAnyAnimationRunning = function (marker) {
 /* Will truncate all strings longer than given max-length "n". */
 String.prototype.trunc = function (n) {
     return this.substr(0, n - 1) + (this.length > n ? '...' : '');
+};
+
+/* Helper function to split long String to two Strings. */
+wrapString = function (text, wrapLength) {
+    let array = [];
+    if(text.length > wrapLength) {
+        let char = text.charAt(wrapLength);
+        if(char === ' ') {
+            text = text.slice(0, wrapLength) + text.slice(wrapLength+1, text.length);
+            array.push(text.substr(0, wrapLength));
+            if(text.length < 2*wrapLength) {
+                let rest = text.length - wrapLength;
+                array.push(text.substr(wrapLength, rest));
+            } else {
+                array.push(text.substr(wrapLength, text.length - wrapLength).trunc(wrapLength));
+            }
+        } else {
+            let spaceIndex = text.substr(0, wrapLength).lastIndexOf(' ');
+            text = text.slice(0, spaceIndex) + text.slice(spaceIndex+1, text.length);
+            array.push(text.substr(0, spaceIndex));
+            if(text.length < spaceIndex + wrapLength) {
+                let rest = text.length - spaceIndex;
+                array.push(text.substr(spaceIndex, rest));
+            } else {
+                array.push(text.substr(spaceIndex, text.length - spaceIndex).trunc(wrapLength));
+            }
+        }
+    } else {
+        array.push(text);
+    }
+    return array;
 };

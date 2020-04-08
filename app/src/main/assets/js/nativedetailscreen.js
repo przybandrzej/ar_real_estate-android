@@ -1,7 +1,9 @@
 /* Implementation of AR-Experience (aka "World"). */
 let World = {
 
-    maxRangeMeters: 300,
+    maxRangeMeters: 200,
+    minScalingDistance: 10,
+    scalingFactor: 0.25,
     userLocation: null,
     isRequestingData: false,
     initiallyLoadedData: false,
@@ -34,6 +36,14 @@ let World = {
         World.updateStatusMessage('Requesting places...');
         World.loadPoisFromJsonData(myJsonData);
         World.isRequestingData = false;
+        /* Update culling distance, so only places within given range are rendered. */
+        AR.context.scene.cullingDistance = World.maxRangeMeters;
+        /* Update Marker's scaling factors and distance. */
+        AR.context.scene.maxScalingDistance = World.maxRangeMeters;
+        AR.context.scene.minScalingDistance = World.minScalingDistance;
+        AR.context.scene.scalingFactor = World.scalingFactor;
+        /* Update radar's maxDistance so radius of radar is updated too. */
+        PoiRadar.setMaxDistance(World.maxRangeMeters);
     },
 
     /* Called to inject new POI data. */
@@ -98,10 +108,6 @@ let World = {
             World.requestDataFromLocal();
             World.initiallyLoadedData = true;
         } else if (World.locationUpdateCounter === 0) {
-            /*
-                Update placemark distance information frequently, you may also update distances only every 10m with
-                some more effort.
-             */
             World.updateDistanceToUserValues();
         }
 
@@ -167,26 +173,16 @@ let World = {
 
         World.updateStatusMessage((placesInRange !== 1) ?
             (placesInRange + " places loaded") : (placesInRange + " place loaded"));
-
-        /* Update culling distance, so only places within given range are rendered. */
-        AR.context.scene.cullingDistance = Math.max(World.maxRangeMeters, 1);
-
-        /* Update radar's maxDistance so radius of radar is updated too. */
-        PoiRadar.setMaxDistance(Math.max(World.maxRangeMeters, 1));
     },
 
     /* Returns number of places with same or lower distance than given range. */
     getNumberOfVisiblePlacesInRange: function getNumberOfVisiblePlacesInRangeFn(maxRangeMeters) {
-        /* Sort markers by distance. */
         World.markerList.sort(World.sortByDistanceSorting);
-
-        /* Loop through list and stop once a placemark is out of range ( -> very basic implementation ). */
         for (let i = 0; i < World.markerList.length; i++) {
             if (World.markerList[i].distanceToUser > maxRangeMeters) {
                 return i;
             }
         }
-        /* In case no placemark is out of range -> all are visible. */
         return World.markerList.length;
     },
 
@@ -205,7 +201,7 @@ let World = {
         });
     },
 
-    /* Display range slider. */
+    /* Display range panel. */
     showRange: function showRangeFn() {
         World.updateRangeValues();
         World.handlePanelMovements();
