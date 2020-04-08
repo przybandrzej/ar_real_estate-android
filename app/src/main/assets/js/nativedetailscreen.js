@@ -123,7 +123,10 @@ let World = {
      */
     updateDistanceToUserValues: function updateDistanceToUserValuesFn() {
         for (let i = 0; i < World.markerList.length; i++) {
-            World.markerList[i].distanceToUser = World.markerList[i].markerObject.locations[0].distanceToUser();
+            let marker = World.markerList[i];
+            let distance = marker.markerObject.locations[0].distanceToUser();
+            marker.distanceToUser = distance;
+            marker.updateDistanceLabel(marker, distance);
         }
     },
 

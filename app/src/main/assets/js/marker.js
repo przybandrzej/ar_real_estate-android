@@ -163,6 +163,23 @@ Marker.prototype.getOnClickTrigger = function (marker) {
     };
 };
 
+Marker.prototype.updateDistanceLabel = function(marker, distance) {
+    marker.distanceLabel.destroy();
+    marker.distanceLabel = new AR.Label("Distance: " + distance.toFixed() + "m", 0.3, {
+        zOrder: 1,
+        verticalAnchor: AR.CONST.VERTICAL_ANCHOR.BOTTOM,
+        horizontalAnchor: AR.CONST.HORIZONTAL_ANCHOR.LEFT,
+        translate: {
+            x: -2.2,
+            y: -0.96
+        },
+        style: {
+            textColor: '#FFFFFF'
+        }
+    });
+    marker.markerObject.drawables.addCamDrawable(marker.distanceLabel);
+};
+
 /*
     Property Animations allow constant changes to a numeric value/property of an object, dependent on start-value,
     end-value and the duration of the animation. Animations can be seen as functions defining the progress of the
