@@ -36,14 +36,6 @@ let World = {
         World.updateStatusMessage('Requesting places...');
         World.loadPoisFromJsonData(myJsonData);
         World.isRequestingData = false;
-        /* Update culling distance, so only places within given range are rendered. */
-        AR.context.scene.cullingDistance = World.maxRangeMeters;
-        /* Update Marker's scaling factors and distance. */
-        AR.context.scene.maxScalingDistance = World.maxRangeMeters;
-        AR.context.scene.minScalingDistance = World.minScalingDistance;
-        AR.context.scene.scalingFactor = World.scalingFactor;
-        /* Update radar's maxDistance so radius of radar is updated too. */
-        PoiRadar.setMaxDistance(World.maxRangeMeters);
     },
 
     /* Called to inject new POI data. */
@@ -55,6 +47,15 @@ let World = {
         PoiRadar.show();
         $('#radarContainer').unbind('click');
         $("#radarContainer").click(PoiRadar.clickedRadar);
+
+        /* Update culling distance, so only places within given range are rendered. */
+        AR.context.scene.cullingDistance = World.maxRangeMeters;
+        /* Update Marker's scaling factors and distance. */
+        AR.context.scene.maxScalingDistance = World.maxRangeMeters;
+        AR.context.scene.minScalingDistance = World.minScalingDistance;
+        AR.context.scene.scalingFactor = World.scalingFactor;
+        /* Update radar's maxDistance so radius of radar is updated too. */
+        PoiRadar.setMaxDistance(World.maxRangeMeters);
 
         /* Empty list of visible markers. */
         World.markerList = [];
