@@ -13,7 +13,7 @@ function showPanel() {
     $("#panel-distance").on("panelbeforeclose", function(event, ui) {
         isPanelOpen = false;
     });
-    panelPopulateUserLocation();
+    World.updatePanelValues();
     World.getPlacesLabelCall();
 }
 
@@ -39,11 +39,14 @@ function panelAddPlaceToList(text) {
 }
 
 function panelPopulateUserLocation() {
-    if(!isPanelOpen) {
-        return;
-    }
     $("#lp-content-userlocation-latitude").html(World.userLocation.latitude);
     $("#lp-content-userlocation-longitude").html(World.userLocation.longitude);
     $("#lp-content-userlocation-altitude").html(World.userLocation.altitude);
     $("#lp-content-userlocation-accuracy").html(World.userLocation.accuracy);
+}
+
+/* This is called from Native Android code after the World.updatePanelValues() to receive the user's current addresses. */
+function panelSetUserAddress(value) {
+    const json = JSON.parse(value);
+    $("#lp-content-userlocation-address").html(json.address);
 }

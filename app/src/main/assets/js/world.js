@@ -100,11 +100,18 @@ let World = {
         } else if (World.locationUpdateCounter === 0) {
             World.updateDistanceToUserValues();
         }
-        /* Update the "More" panel user's location values if open. */
-        panelPopulateUserLocation();
+        World.updatePanelValues();
         /* Helper to count updates. The distance value is updated every updatePlacemarkDistancesEveryXLocationUpdates */
         World.locationUpdateCounter =
             (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
+    },
+
+    updatePanelValues: function updatePanelValuesFn() {
+        if(isPanelOpen) {
+            panelPopulateUserLocation();
+            const JSONcall = {action: "user_address_get"};
+            AR.platform.sendJSONObject(JSONcall);
+        }
     },
 
     updateDistanceToUserValues: function updateDistanceToUserValuesFn() {
@@ -141,8 +148,9 @@ let World = {
 
     /* This is called from Native Android code after the World.getPlacesLabelCall() to receive the addresses of the offers. */
     onPlacesAddressesReceived: function onPlacesAddressesReceivedFn(text) {
-        World.markerList.sort(World.sortByDistanceSorting);
         const json = JSON.parse(text);
+        World.markerList.sort(World.sortByDistanceSorting);
+
         for (let i = 0; i < World.markerList.length; i++) {
             const marker = World.markerList[i];
             if (marker.distanceToUser > World.maxRangeMeters) {

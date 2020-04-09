@@ -5,6 +5,7 @@ import android.content.res.AssetManager;
 import android.location.Address;
 import android.location.Geocoder;
 
+import android.location.Location;
 import com.arlab.realestate.data.model.Offer;
 import com.arlab.realestate.data.model.OfferAddress;
 import com.arlab.realestate.data.model.OffersResponse;
@@ -22,6 +23,7 @@ public class DataProvider {
 
     private static final String OFFERS_FILE = "location-sources/offers-0_1.js";
     private static Set<Offer> offersCache = Collections.emptySet();
+    private static Location userLocation = null;
     private Gson gson;
     private Context context;
 
@@ -32,6 +34,10 @@ public class DataProvider {
 
     public static Set<Offer> getOffersCache() {
         return offersCache;
+    }
+
+    public static void setUserLocation(Location location) {
+        userLocation = location;
     }
 
     public Set<Offer> getOffers() {
@@ -94,5 +100,21 @@ public class DataProvider {
             e.printStackTrace();
         }
         return response;
+    }
+
+    public String getUserAddressLine() {
+        String str = "";
+        try {
+            if(userLocation != null) {
+                Geocoder geocoder = new Geocoder(context, Locale.getDefault());
+                List<Address> addresses = geocoder
+                    .getFromLocation(userLocation.getLatitude(), userLocation.getLongitude(), 1);
+                Address address = addresses.get(0);
+                str = address.getThoroughfare() + " " + address.getSubThoroughfare();
+            }
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+        return str;
     }
 }
