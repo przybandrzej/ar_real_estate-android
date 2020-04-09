@@ -16,6 +16,7 @@ import com.arlab.realestate.R;
 import com.arlab.realestate.android.util.ArchitectJavaScriptListener;
 import com.arlab.realestate.android.util.CameraConfig;
 import com.arlab.realestate.android.util.LocationProvider;
+import com.arlab.realestate.data.DataProvider;
 import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
 
@@ -131,6 +132,7 @@ public class ArActivity extends AppCompatActivity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+        DataProvider.setUserLocation(location);
         float accuracy = location.hasAccuracy() ? location.getAccuracy() : 1000;
         if (location.hasAltitude()) {
             architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), accuracy);
