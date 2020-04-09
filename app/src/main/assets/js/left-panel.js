@@ -39,7 +39,6 @@ function panelAddPlaceToList(text) {
 }
 
 function panelPopulateUserLocation() {
-    alert(isPanelOpen);
     if(!isPanelOpen) {
         return;
     }
