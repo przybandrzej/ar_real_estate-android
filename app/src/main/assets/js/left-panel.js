@@ -6,7 +6,6 @@ function showPanel() {
     $("#lp-content-range-value").html(World.maxRangeMeters);
     let count = World.getNumberOfVisiblePlaces();
     $("#lp-content-places-count-value").html((count !== 1) ? (count + " places") : (count + " place"));
-    panelPopulateUserLocation();
     handlePanelMovements();
     /* Open panel. */
     $("#panel-distance").trigger("updatelayout");
@@ -14,6 +13,7 @@ function showPanel() {
     $("#panel-distance").on("panelbeforeclose", function(event, ui) {
         isPanelOpen = false;
     });
+    panelPopulateUserLocation();
     World.getPlacesLabelCall();
 }
 
