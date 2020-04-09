@@ -81,11 +81,23 @@
         <!-- information calculated/updated in code  -->
         <div class="lp-content" id="lp-content">
             <!-- Range in m/km-->
-            <h4 class="lp-content-upper" id="lp-content-range-line">View range: <a class="lp-content-upper" id="lp-content-range-value"></a>m</h4>
+            <h4 class="lp-content-upper" id="lp-content-range-line"
+            >View range: <a class="lp-content-upper" id="lp-content-range-value"></a>m</h4>
             <!-- Amount of visible places -->
-            <h4 class="lp-content-upper" id="lp-content-places-count-line">Visible: <a class="lp-content-upper" id="lp-content-places-count-value"></a>.</h4>
+            <h4 class="lp-content-upper" id="lp-content-places-count-line"
+            >Visible: <a class="lp-content-upper" id="lp-content-places-count-value"></a>.</h4>
+            </br>
             <!-- Visible places list -->
-            <ul class="lp-content-places" id="lp-content-places"></ul>
+            <ul class="lp-content-list" id="lp-content-places"></ul>
+            </br>
+            <!-- User's location -->
+            <h4 class="lp-content-upper" id="lp-content-userlocation-line">Your location is:</h4>
+            <ul class="lp-content-list" id="lp-content-userlocation-list">
+                <li>Latitude <a id="lp-content-userlocation-latitude"></a></li>
+                <li>Longitude <a id="lp-content-userlocation-longitude"></a></li>
+                <li>Altitude <a id="lp-content-userlocation-altitude"></a></li>
+                <li>Accuracy <a id="lp-content-userlocation-accuracy"></a></li>
+            </ul>
         </div>
     </div>
 </div>

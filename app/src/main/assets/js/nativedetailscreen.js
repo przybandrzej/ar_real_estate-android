@@ -100,6 +100,8 @@ let World = {
         } else if (World.locationUpdateCounter === 0) {
             World.updateDistanceToUserValues();
         }
+        /* Update the "More" panel user's location values if open. */
+        panelPopulateUserLocation();
         /* Helper to count updates. The distance value is updated every updatePlacemarkDistancesEveryXLocationUpdates */
         World.locationUpdateCounter =
             (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
