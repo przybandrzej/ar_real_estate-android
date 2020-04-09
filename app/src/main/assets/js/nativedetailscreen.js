@@ -1,6 +1,5 @@
 /* Implementation of AR-Experience (aka "World"). */
 let World = {
-
     maxRangeMeters: 200,
     minScalingDistance: 10,
     scalingFactor: 0.25,
@@ -17,7 +16,6 @@ let World = {
     locationUpdateCounter: 0,
     updatePlacemarkDistancesEveryXLocationUpdates: 2,
 
-    /* Reload places from content source. */
     reloadPlaces: function reloadPlacesFn() {
         if (!World.isRequestingData) {
             if (World.userLocation) {
@@ -30,7 +28,6 @@ let World = {
         }
     },
 
-    /* Request POI data. */
     requestDataFromLocal: function requestDataFromLocalFn() {
         World.isRequestingData = true;
         World.updateStatusMessage('Requesting places...');
@@ -38,7 +35,6 @@ let World = {
         World.isRequestingData = false;
     },
 
-    /* Called to inject new POI data. */
     loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
         /* Destroys all existing AR-Objects (markers & radar). */
         AR.context.destroyAll();
@@ -67,8 +63,6 @@ let World = {
         World.markerDrawableSelected = new AR.ImageResource("assets/marker_selected.png", {
             onError: World.onError
         });
-
-        let poisInfo = 'Places loaded:';
         let poiArray = poiData.offers;
         /* Loop through POI-information and create an AR.GeoObject (=Marker) per POI. */
         for (let currentPlaceNr = 0; currentPlaceNr < poiArray.length; currentPlaceNr++) {
@@ -86,16 +80,12 @@ let World = {
             if("floor" in poiArray[currentPlaceNr]) {
                 singlePoi["floor"] = parseInt(poiArray[currentPlaceNr].floor)
             }
-
-            poisInfo = poisInfo + '</br>' + poiArray[currentPlaceNr].location.latitude
-                + ', ' + poiArray[currentPlaceNr].location.longitude;
             World.markerList.push(new Marker(singlePoi));
         }
         World.updateDistanceToUserValues();
-        World.updateStatusMessage(poisInfo);
     },
 
-    /* Location updates, fired every time you call architectView.setLocation() in native environment. */
+    /* Location updates, fired every time architectView.setLocation() is called in native environment. */
     locationChanged: function locationChangedFn(lat, lon, alt, acc) {
         World.userLocation = {
             'latitude': lat,
@@ -103,7 +93,6 @@ let World = {
             'altitude': alt,
             'accuracy': acc
         };
-
         /* Request data if not already present. */
         if (!World.initiallyLoadedData) {
             World.requestDataFromLocal();
@@ -111,16 +100,11 @@ let World = {
         } else if (World.locationUpdateCounter === 0) {
             World.updateDistanceToUserValues();
         }
-
-        /* Helper used to update placemark information every now and then (e.g. every 10 location upadtes fired). */
+        /* Helper to count updates. The distance value is updated every updatePlacemarkDistancesEveryXLocationUpdates */
         World.locationUpdateCounter =
             (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
     },
 
-    /*
-        Sets/updates distances of all makers so they are available way faster than calling (time-consuming)
-        distanceToUser() method all the time.
-     */
     updateDistanceToUserValues: function updateDistanceToUserValuesFn() {
         for (let i = 0; i < World.markerList.length; i++) {
             let marker = World.markerList[i];
@@ -130,88 +114,59 @@ let World = {
         }
     },
 
-    /* Updates status message shown in small "i"-button aligned bottom center. */
-    updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
-        let themeToUse = isWarning ? "e" : "c";
-        let iconToUse = isWarning ? "alert" : "info";
-        $("#status-message").html(message);
-        $("#popupInfoButton").buttonMarkup({
-            theme: themeToUse,
-            icon: iconToUse
-        });
-    },
-
-    /* Fired when user pressed maker in cam. */
     onMarkerSelected: function onMarkerSelectedFn(marker) {
         World.currentMarker = marker;
         const markerSelectedJSON = {
                     action: "present_poi_details",
                     id: World.currentMarker.poiData.id
                 };
-        //The sendJSONObject method can be used to send data from javascript to the native code.
         AR.platform.sendJSONObject(markerSelectedJSON);
     },
 
+    /* This is called from Native Android code after the Offer's Detail screen is closed. */
     onOfferDetailScreenDestroyed: function onOfferDetailScreenDestroyedFn() {
         if(World.currentMarker !== null) {
             World.currentMarker.setDeselected(World.currentMarker);
         }
     },
 
-    /* Screen was clicked but no geo-object was hit. */
-    // TODO
-    onScreenClick: function onScreenClickFn() {
-        if (World.currentMarker) {
-            World.currentMarker.setDeselected(World.currentMarker);
+    getPlacesLabelCall: function getPlacesLabelCallFn() {
+        const JSONcall = {
+            action: "places_labels_get"
+        };
+        AR.platform.sendJSONObject(JSONcall);
+    },
+
+    /* This is called from Native Android code after the World.getPlacesLabelCall() to receive the addresses of the offers. */
+    onPlacesAddressesReceived: function onPlacesAddressesReceivedFn(text) {
+        World.markerList.sort(World.sortByDistanceSorting);
+        const json = JSON.parse(text);
+        for (let i = 0; i < World.markerList.length; i++) {
+            const marker = World.markerList[i];
+            if (marker.distanceToUser > World.maxRangeMeters) {
+                break;
+            }
+            panelAddPlaceToList(json.items.filter(function (chain) {
+                return chain.offerId === marker.poiData.id;
+            })[0].address);
         }
     },
 
-    /* Updates values shown in "range panel". */
-    updateRangeValues: function updateRangeValuesFn() {
-        let placesInRange = World.getNumberOfVisiblePlacesInRange(World.maxRangeMeters);
-
-        /* Update UI labels accordingly. */
-        $("#panel-distance-value").html(World.maxRangeMeters);
-        $("#panel-distance-places").html((placesInRange !== 1) ?
-            (placesInRange + " Places") : (placesInRange + " Place"));
-
-        World.updateStatusMessage((placesInRange !== 1) ?
-            (placesInRange + " places loaded") : (placesInRange + " place loaded"));
-    },
-
-    /* Returns number of places with same or lower distance than given range. */
-    getNumberOfVisiblePlacesInRange: function getNumberOfVisiblePlacesInRangeFn(maxRangeMeters) {
+    getNumberOfVisiblePlaces: function getNumberOfVisiblePlacesFn() {
         World.markerList.sort(World.sortByDistanceSorting);
         for (let i = 0; i < World.markerList.length; i++) {
-            if (World.markerList[i].distanceToUser > maxRangeMeters) {
+            if (World.markerList[i].distanceToUser > World.maxRangeMeters) {
                 return i;
             }
         }
         return World.markerList.length;
     },
 
-    handlePanelMovements: function handlePanelMovementsFn() {
-
-        $("#panel-distance").on("panelclose", function (event, ui) {
-            $("#radarContainer").addClass("radarContainer_left");
-            $("#radarContainer").removeClass("radarContainer_right");
-            PoiRadar.updatePosition();
-        });
-
-        $("#panel-distance").on("panelopen", function (event, ui) {
-            $("#radarContainer").removeClass("radarContainer_left");
-            $("#radarContainer").addClass("radarContainer_right");
-            PoiRadar.updatePosition();
-        });
-    },
-
-    /* Display range panel. */
-    showRange: function showRangeFn() {
-        World.updateRangeValues();
-        World.handlePanelMovements();
-        /* Open panel. */
-        $("#panel-distance").trigger("updatelayout");
-        $("#panel-distance").panel("open", 1234);
+    /* Screen was clicked but no geo-object was hit. */
+    onScreenClick: function onScreenClickFn() {
+        if (World.currentMarker) {
+            World.currentMarker.setDeselected(World.currentMarker);
+        }
     },
 
     /* Helper to sort places by distance. */
@@ -226,7 +181,18 @@ let World = {
 
     onError: function onErrorFn(error) {
         alert(error);
-    }
+    },
+
+    /* Updates status message shown in small "i"-button aligned bottom center. */
+    updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
+        let themeToUse = isWarning ? "e" : "c";
+        let iconToUse = isWarning ? "alert" : "info";
+        $("#status-message").html(message);
+        $("#popupInfoButton").buttonMarkup({
+            theme: themeToUse,
+            icon: iconToUse
+        });
+    },
 };
 
 /* Forward locationChanges to custom function. */
