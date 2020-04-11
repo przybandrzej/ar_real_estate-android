@@ -100,7 +100,6 @@ let World = {
         } else {
             World.updateDistanceToUserValues();
             World.updatePanelValues();
-            World.updateStatusMessage("new Location time: " + Date.now()/1000, false);
         }
     },
 

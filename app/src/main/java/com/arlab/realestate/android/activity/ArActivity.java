@@ -25,6 +25,7 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
 
   private static final String TAG = ArActivity.class.getSimpleName();
   private static final String AR_EXPERIENCE = "index.html";
+  private static final double ALTITUDE_CONST = 0.0;
   protected ArchitectView architectView;
   private BaseLocationStrategy baseLocationStrategy;
   private ArchitectJavaScriptListener javaScriptListener;
@@ -115,7 +116,7 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
   public void onLocationChanged(Location location) {
     DataProvider.setUserLocation(location);
     float accuracy = location.hasAccuracy() ? location.getAccuracy() : 200;
-    architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), accuracy);
+    architectView.setLocation(location.getLatitude(), location.getLongitude(), ALTITUDE_CONST, accuracy);
   }
 
   /**
