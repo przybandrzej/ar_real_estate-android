@@ -14,22 +14,17 @@ public class LocationManagerStrategy implements BaseLocationStrategy, LocationLi
   private Location mLastLocation;
   private LocationChangesListener mLocationListener;
   private boolean mUpdatePeriodically = false;
-  private static LocationManagerStrategy INSTANCE;
-  // Location updates intervals in sec
-  private static long UPDATE_INTERVAL = 0; // 0 sec
-  private static long FASTEST_INTERVAL = 0; // 0 sec
-  private static long DISPLACEMENT = 0; // meters
-  // flag for GPS status
   private boolean isGPSEnabled = false;
-  // flag for network status
   private boolean isNetworkEnabled = false;
+  private static LocationManagerStrategy INSTANCE;
+  private static long UPDATE_INTERVAL = 0; // milliseconds
+  private static long FASTEST_INTERVAL = 0; // milliseconds
+  private static long DISPLACEMENT = 0; // meters
   private static final String TAG = "LocationManagerStrategy";
 
-
-  public LocationManagerStrategy(Context context) {
+  private LocationManagerStrategy(Context context) {
     this.mAppContext = context;
   }
-
 
   public static LocationManagerStrategy getInstance(Context context) {
     if(INSTANCE == null) {
@@ -136,21 +131,21 @@ public class LocationManagerStrategy implements BaseLocationStrategy, LocationLi
   @Override
   public void onStatusChanged(String provider, int status, Bundle extras) {
     if(mLocationListener != null) {
-      mLocationListener.onConnectionStatusChanged();
+      mLocationListener.onLocationProviderStatusChanged(provider, status);
     }
   }
 
   @Override
   public void onProviderEnabled(String provider) {
     if(mLocationListener != null) {
-      mLocationListener.onConnected();
+      mLocationListener.onLocationProviderEnabled(provider);
     }
   }
 
   @Override
   public void onProviderDisabled(String provider) {
     if(mLocationListener != null) {
-      mLocationListener.onFailure(provider);
+      mLocationListener.onLocationProviderDisabled(provider);
     }
   }
 }

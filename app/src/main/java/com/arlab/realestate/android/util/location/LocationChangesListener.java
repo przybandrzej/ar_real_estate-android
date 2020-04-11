@@ -4,7 +4,7 @@ import android.location.Location;
 
 public interface LocationChangesListener {
     void onLocationChanged(Location location);
-    void onConnected();
-    void onConnectionStatusChanged();
-    void onFailure(String failureMessage);
+    void onLocationProviderEnabled(String provider);
+    void onLocationProviderStatusChanged(String provider, int status);
+    void onLocationProviderDisabled(String failureMessage);
 }

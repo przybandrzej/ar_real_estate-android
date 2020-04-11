@@ -91,7 +91,6 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
     super.onResume();
     architectView.onResume();
     baseLocationStrategy.startListeningForLocationChanges(this);
-    baseLocationStrategy.startLocationUpdates();
     architectView.registerSensorAccuracyChangeListener(sensorAccuracyChangeListener);
     architectView.callJavascript("World.onOfferDetailScreenDestroyed()");
   }
@@ -119,16 +118,19 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
     architectView.setLocation(location.getLatitude(), location.getLongitude(), location.getAltitude(), accuracy);
   }
 
+  /**
+   * implement these methods in production app
+   */
   @Override
-  public void onConnected() {
+  public void onLocationProviderEnabled(String provider) {
   }
 
   @Override
-  public void onConnectionStatusChanged() {
+  public void onLocationProviderStatusChanged(String provider, int status) {
 
   }
 
   @Override
-  public void onFailure(String failureMessage) {
+  public void onLocationProviderDisabled(String provider) {
   }
 }
