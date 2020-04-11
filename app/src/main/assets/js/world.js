@@ -14,7 +14,7 @@ let World = {
     currentMarker: null,
 
     locationUpdateCounter: 0,
-    updatePlacemarkDistancesEveryXLocationUpdates: 2,
+    updatePlacemarkDistancesEveryXLocationUpdates: 1,
 
     reloadPlaces: function reloadPlacesFn() {
         if (!World.isRequestingData) {
@@ -33,6 +33,7 @@ let World = {
         World.updateStatusMessage('Requesting places...');
         World.loadPoisFromJsonData(myJsonData);
         World.isRequestingData = false;
+        World.initiallyLoadedData = true;
     },
 
     loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
@@ -77,7 +78,7 @@ let World = {
                 "offerType": poiArray[currentPlaceNr].offerType,
                 "price": poiArray[currentPlaceNr].pricing.price + " " + poiArray[currentPlaceNr].pricing.currency
             };
-            if("floor" in poiArray[currentPlaceNr]) {
+            if ("floor" in poiArray[currentPlaceNr]) {
                 singlePoi["floor"] = parseInt(poiArray[currentPlaceNr].floor)
             }
             World.markerList.push(new Marker(singlePoi));
@@ -96,18 +97,14 @@ let World = {
         /* Request data if not already present. */
         if (!World.initiallyLoadedData) {
             World.requestDataFromLocal();
-            World.initiallyLoadedData = true;
-        } else if (World.locationUpdateCounter === 0) {
+        } else {
             World.updateDistanceToUserValues();
+            World.updatePanelValues();
         }
-        World.updatePanelValues();
-        /* Helper to count updates. The distance value is updated every updatePlacemarkDistancesEveryXLocationUpdates */
-        World.locationUpdateCounter =
-            (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
     },
 
     updatePanelValues: function updatePanelValuesFn() {
-        if(isPanelOpen) {
+        if (isPanelOpen) {
             panelPopulateUserLocation();
             const JSONcall = {action: "user_address_get"};
             AR.platform.sendJSONObject(JSONcall);
@@ -126,15 +123,15 @@ let World = {
     onMarkerSelected: function onMarkerSelectedFn(marker) {
         World.currentMarker = marker;
         const markerSelectedJSON = {
-                    action: "present_poi_details",
-                    id: World.currentMarker.poiData.id
-                };
+            action: "present_poi_details",
+            id: World.currentMarker.poiData.id
+        };
         AR.platform.sendJSONObject(markerSelectedJSON);
     },
 
     /* This is called from Native Android code after the Offer's Detail screen is closed. */
     onOfferDetailScreenDestroyed: function onOfferDetailScreenDestroyedFn() {
-        if(World.currentMarker !== null) {
+        if (World.currentMarker !== null) {
             World.currentMarker.setDeselected(World.currentMarker);
         }
     },

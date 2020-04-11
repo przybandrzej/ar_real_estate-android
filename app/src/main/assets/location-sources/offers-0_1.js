@@ -15,7 +15,7 @@ const myJsonData = {
             "location": {
                 "latitude": 52.406653,
                 "longitude": 16.917883,
-                "altitude": 78
+                "altitude": 3
             },
             "pricing": {
                 "type": "monthly",
@@ -37,7 +37,7 @@ const myJsonData = {
             "location": {
                 "latitude": 52.119514,
                 "longitude": 16.128616,
-                "altitude": 71
+                "altitude": 3
             },
             "pricing": {
                 "type": "single",
@@ -59,7 +59,7 @@ const myJsonData = {
             "location": {
                 "latitude": 52.119383,
                 "longitude": 16.129387,
-                "altitude": 78
+                "altitude": 3
             },
             "pricing": {
                 "type": "monthly",
