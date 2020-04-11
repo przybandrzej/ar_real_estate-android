@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 final Intent intent = new Intent(MainActivity.this, ArActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
-                // TODO make "finish()" to block the possibility to get back to this screen
+                finish();
             }
 
             @Override
