@@ -15,3 +15,15 @@
     margin-bottom: 0;
     margin-top: 8px;
 }
+
+.popupInfo {
+    text-align: right;
+    max-width: 50%;
+}
+
+.popupInfo-statusMessage {
+    color: black;
+}
+
+
+
