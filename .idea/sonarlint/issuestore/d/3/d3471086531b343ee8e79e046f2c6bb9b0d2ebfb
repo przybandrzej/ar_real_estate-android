@@ -1,0 +1,29 @@
+
+v
+java:S1450"[Remove the "isGPSEnabled" field and declare it as a local variable in the relevant methods.(Ö¤šùûÿÿÿÿ
+X
+java:S2696B"6Make the enclosing method "static" or remove this set.(¹Õœúÿÿÿÿ8ûÎ°È–.
+q
+java:S3008"[Rename this field "FASTEST_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü¶¶
+R
+java:S2696J"6Make the enclosing method "static" or remove this set.(©”Á,8ûÎ°È–.
+m
+java:S3008"WRename this field "DISPLACEMENT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãñğà
+u
+java:S3008"ZRename this field "UPDATE_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆõº™ıÿÿÿÿ
+9
+java:S11485"#Use a logger to log this exception.(Ç’Çê
+L
+java:S2696P"6Make the enclosing method "static" or remove this set.(…€È²
+i
+java:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üØ—Ø
+B
+java:S1068"'Remove this unused "TAG" private field.(Ûâ§Óøÿÿÿÿ
+S
+java:S2696H"6Make the enclosing method "static" or remove this set.(†Â¾¨8ûÎ°È–.
+Q
+java:S2696@"6Make the enclosing method "static" or remove this set.(ñèœ†úÿÿÿÿ
+z
+java:S1450"_Remove the "isNetworkEnabled" field and declare it as a local variable in the relevant methods.(æ¤Àçşÿÿÿÿ
+9
+java:S1148y"#Use a logger to log this exception.(Ç’Çê

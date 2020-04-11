@@ -1,10 +1,7 @@
 
 O
-java:S1128"2Remove this unused import 'android.os.Parcelable'.(υΓΐ­8χ°©΅•.
-R
-java:S1128"7Remove this unused import 'com.google.gson.JsonObject'.(µΚ΄½8ρυεί”.
-<	java:S131""Add a default case to this switch.(Ν€΄·8ρυεί”.
-f
-java:S1301"KReplace this "switch" statement by "if" statements to increase readability.(Ν€΄·8ρυεί”.
-M
-java:S1199"-Extract this nested code block into a method.(¤…Τωÿÿÿÿ8ρυεί”.
+java:S1199&"-Extract this nested code block into a method.(¤…Τωÿÿÿÿ8ρυεί”.
+O
+java:S1199+"-Extract this nested code block into a method.(ό«λΨύÿÿÿÿ8Λξ΅χ•.
+J
+java:S11998"-Extract this nested code block into a method.(©™λώ8…³’ώ•.

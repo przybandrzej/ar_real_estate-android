@@ -39,10 +39,12 @@ function panelAddPlaceToList(text) {
 }
 
 function panelPopulateUserLocation() {
-    $("#lp-content-userlocation-latitude").html(World.userLocation.latitude);
-    $("#lp-content-userlocation-longitude").html(World.userLocation.longitude);
-    $("#lp-content-userlocation-altitude").html(World.userLocation.altitude);
-    $("#lp-content-userlocation-accuracy").html(World.userLocation.accuracy);
+    if(World.userLocation !== null) {
+        $("#lp-content-userlocation-latitude").html(World.userLocation.latitude);
+        $("#lp-content-userlocation-longitude").html(World.userLocation.longitude);
+        $("#lp-content-userlocation-altitude").html(World.userLocation.altitude);
+        $("#lp-content-userlocation-accuracy").html(World.userLocation.accuracy);
+    }
 }
 
 /* This is called from Native Android code after the World.updatePanelValues() to receive the user's current addresses. */

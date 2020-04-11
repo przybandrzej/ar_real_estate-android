@@ -1,0 +1,31 @@
+
+S
+java:S2696S"6Make the enclosing method "static" or remove this set.(†Â¾¨8³ÁûÆ–.
+X
+java:S2696K"6Make the enclosing method "static" or remove this set.(ñèœ†úÿÿÿÿ8êÆ‰Ç–.
+X
+java:S2696M"6Make the enclosing method "static" or remove this set.(¹Õœúÿÿÿÿ8Ÿµ„Ç–.
+V
+java:S1874²"8Remove this use of "FusedLocationApi"; it is deprecated.(€È½Ã8á™ïÇ–.
+m
+java:S3008 "WRename this field "DISPLACEMENT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãñğà
+R
+java:S2696U"6Make the enclosing method "static" or remove this set.(©”Á,8İ¯Ç–.
+Q
+java:S2696["6Make the enclosing method "static" or remove this set.(±Î¹ñúÿÿÿÿ
+u
+java:S3008"ZRename this field "UPDATE_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆõº™ıÿÿÿÿ
+i
+java:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸áúó
+V
+java:S1874"8Remove this use of "FusedLocationApi"; it is deprecated.(ª»„8ñ©‘Ê–.
+P
+java:S2209["5Change this instance-reference to a static reference.(±Î¹ñúÿÿÿÿ
+B
+java:S1068""'Remove this unused "TAG" private field.(™ùîóıÿÿÿÿ
+q
+java:S3008"[Rename this field "FASTEST_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ü¶¶
+U
+java:S1874d"8Remove this use of "FusedLocationApi"; it is deprecated.(Ö¶ƒ¿8èÿ‘Ê–.
+Z
+java:S1874"8Remove this use of "FusedLocationApi"; it is deprecated.(Ç™ìÿÿÿÿÿ8èÿ‘Ê–.
