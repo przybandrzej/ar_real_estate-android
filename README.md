@@ -10,12 +10,13 @@ The Location Providing Alorithm is well optimized and set to provide the most ac
 
 ### Technologies:
 
-  - Wikitude AR (Wikitude Android JavaScript API) - the whole AR world behaviour implementation
+  - [Wikitude AR](https://www.wikitude.com/) (Wikitude Android JavaScript API) - the whole AR world behaviour implementation.
+  ***There is a Wikitude EDU license that works only with this project***
   - Java for Android Native features and device management (location providing, camera operating, event handling, etc.)
   
 ### Device Requirements
 
-  - min SDK version **28*** (***Android 9***)
+  - min SDK version **28** (***Android 9***)
   - target SDK version **29** (***Android 10***)
 
 But there is no problem with compiling to lower versions. Just make sure your device supports AR Core - min SDK **27** (***Android 7***). You can change the SDK target in `build.gradle` file.
