@@ -52,7 +52,7 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
 
     final CameraConfig cameraConfig = new CameraConfig();
     final ArchitectStartupConfiguration config = new ArchitectStartupConfiguration();
-    config.setLicenseKey(getString(R.string.WikitudeSDK_license_ley));
+    config.setLicenseKey(getString(R.string.wikitude_license));
     config.setCameraPosition(cameraConfig.getCameraPosition());
     config.setCameraResolution(cameraConfig.getCameraResolution());
     config.setCameraFocusMode(cameraConfig.getCameraFocusMode());

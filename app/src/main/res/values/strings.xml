@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">AR Real Estate</string>
-    <string name="WikitudeSDK_license_ley" translatable="false">sfxor3qhpX0Ch24jWHz3Rn16FKmQnzB6szrfDGO2KopUQ0610NExQPliwJLUA7Z6OUFgJyGLmScHeWuZ6Cp9PmtX2s5mmVGz1v17x/gZPJy0LefdiyycMTz0+JPgRLR+4g+7pjZ7L9y8JMzy5tIza/1Hw1ZBE7PSxakLglFf/XpTYWx0ZWRfX1mer4C+Ykm6UzTtS/yGx3Ea8I3DucpJDEtoNg0ZRPfz9hL8J5vx0blqpK58FRrVKansUZyGQorxzBpqEWiHvGL7mIScGoS9RFUI/ZhuCowF0TmEjx7CcF0q8R5nH3bDzFJi2gOW5JRpsVqA3G++uDo1lCDN4TBotEZnN3JEfWz9ihpNqCcr1GX0Hpl5fmMy6QkA30wiX9bLMbqbSM3dSR74WJUYRiqfJT9FUoNyVzwogrdbwmUbFwX+SAjkhfd9uyhEq3RcH1xzLBGmbziMIZkkLCzvYjD3SP+dw4N38Di7HILF3WIlEcc3CUBAqqqJpcMNDI2trXSEdvNpTtiLpX8lC2FduQMSo5g/kTqWHEe1TQ/4DzXXrogKFwQeMAQ20zok52OYk49/UrlthtsaW8Zz2WoEa1Tu64g0i3aj4L+HgJ0IZR9Mtk9VqkFO8h+z0WJnfHqeCbbMMBMooo8a8LDBVxuHNc2Z08bvpLeHf5hS+1+mjyJjLPf7M/atWXaGj+u/5xeCI0oWglDz+7PCHYMlaL0NyMIADkkjGX3WyQzrivd81MairDA=</string>
 
     <!-- Permission handling -->
     <string name="permissions_denied" translatable="false">The Wikitude SDK needs the following permissions to enable an AR experience:</string>
