@@ -1,3 +1,9 @@
+const whereYouAre = "Trying to find out where you are...";
+const requestingData = "Requesting Data...";
+const unknownLocation = 'Unknown user-location.';
+const requestPending = 'Already requesting places...';
+const clear = '';
+
 /* Implementation of AR-Experience (aka "World"). */
 let World = {
     maxRangeMeters: 200,
@@ -14,25 +20,27 @@ let World = {
     currentMarker: null,
 
     locationUpdateCounter: 0,
-    updatePlacemarkDistancesEveryXLocationUpdates: 2,
+    updatePlacemarkDistancesEveryXLocationUpdates: 1,
 
     reloadPlaces: function reloadPlacesFn() {
         if (!World.isRequestingData) {
             if (World.userLocation) {
                 World.requestDataFromLocal();
             } else {
-                World.updateStatusMessage('Unknown user-location.', true);
+                World.updateStatusMessage(unknownLocation, 2000);
             }
         } else {
-            World.updateStatusMessage('Already requesting places...', true);
+            World.updateStatusMessage(requestPending, 1000);
         }
     },
 
     requestDataFromLocal: function requestDataFromLocalFn() {
         World.isRequestingData = true;
-        World.updateStatusMessage('Requesting places...');
+        World.updateStatusMessage(requestingData);
         World.loadPoisFromJsonData(myJsonData);
         World.isRequestingData = false;
+        World.initiallyLoadedData = true;
+        World.updateStatusMessage(clear);
     },
 
     loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
@@ -77,7 +85,7 @@ let World = {
                 "offerType": poiArray[currentPlaceNr].offerType,
                 "price": poiArray[currentPlaceNr].pricing.price + " " + poiArray[currentPlaceNr].pricing.currency
             };
-            if("floor" in poiArray[currentPlaceNr]) {
+            if ("floor" in poiArray[currentPlaceNr]) {
                 singlePoi["floor"] = parseInt(poiArray[currentPlaceNr].floor)
             }
             World.markerList.push(new Marker(singlePoi));
@@ -96,18 +104,14 @@ let World = {
         /* Request data if not already present. */
         if (!World.initiallyLoadedData) {
             World.requestDataFromLocal();
-            World.initiallyLoadedData = true;
-        } else if (World.locationUpdateCounter === 0) {
+        } else {
             World.updateDistanceToUserValues();
+            World.updatePanelValues();
         }
-        World.updatePanelValues();
-        /* Helper to count updates. The distance value is updated every updatePlacemarkDistancesEveryXLocationUpdates */
-        World.locationUpdateCounter =
-            (++World.locationUpdateCounter % World.updatePlacemarkDistancesEveryXLocationUpdates);
     },
 
     updatePanelValues: function updatePanelValuesFn() {
-        if(isPanelOpen) {
+        if (isPanelOpen) {
             panelPopulateUserLocation();
             const JSONcall = {action: "user_address_get"};
             AR.platform.sendJSONObject(JSONcall);
@@ -126,15 +130,15 @@ let World = {
     onMarkerSelected: function onMarkerSelectedFn(marker) {
         World.currentMarker = marker;
         const markerSelectedJSON = {
-                    action: "present_poi_details",
-                    id: World.currentMarker.poiData.id
-                };
+            action: "present_poi_details",
+            id: World.currentMarker.poiData.id
+        };
         AR.platform.sendJSONObject(markerSelectedJSON);
     },
 
     /* This is called from Native Android code after the Offer's Detail screen is closed. */
     onOfferDetailScreenDestroyed: function onOfferDetailScreenDestroyedFn() {
-        if(World.currentMarker !== null) {
+        if (World.currentMarker !== null) {
             World.currentMarker.setDeselected(World.currentMarker);
         }
     },
@@ -193,15 +197,18 @@ let World = {
         alert(error);
     },
 
-    /* Updates status message shown in small "i"-button aligned bottom center. */
-    updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
-        let themeToUse = isWarning ? "e" : "c";
-        let iconToUse = isWarning ? "alert" : "info";
+    /* Updates status message shown in the bottom right corner. */
+    updateStatusMessage: function updateStatusMessageFn(message, time) {
+        $("#status-message").addClass('showStatusMessage');
         $("#status-message").html(message);
-        $("#popupInfoButton").buttonMarkup({
-            theme: themeToUse,
-            icon: iconToUse
-        });
+        if(time !== 0) {
+            setTimeout(function () {
+                $("#status-message").html(clear);
+                $("#status-message").removeClass('showStatusMessage');
+            }, time);
+        } else {
+            $("#status-message").removeClass('showStatusMessage');
+        }
     },
 };
 
@@ -210,3 +217,5 @@ AR.context.onLocationChanged = World.locationChanged;
 
 /* Forward clicks in empty area to World. */
 AR.context.onScreenClick = World.onScreenClick;
+
+World.updateStatusMessage(whereYouAre, 0);

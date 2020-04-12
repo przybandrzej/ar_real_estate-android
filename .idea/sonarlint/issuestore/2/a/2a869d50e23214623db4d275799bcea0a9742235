@@ -1,0 +1,25 @@
+
+T
+java:S2696—"6Make the enclosing method "static" or remove this set.(ˆúëž8‰Ê´Ð–.
+W
+java:S2209>"5Change this instance-reference to a static reference.(±Î¹ñúÿÿÿÿ8—‰ÉÏ–.
+X
+java:S2696."6Make the enclosing method "static" or remove this set.(ñèœ†úÿÿÿÿ8—‰ÉÏ–.
+I
+java:S1068"'Remove this unused "TAG" private field.(™ùîóýÿÿÿÿ8ã•Ð–.
+v
+java:S3008"[Rename this field "FASTEST_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾Ž³Íþÿÿÿÿ
+R
+java:S26968"6Make the enclosing method "static" or remove this set.(©”Á,8—‰ÉÏ–.
+u
+java:S3008"ZRename this field "UPDATE_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™’ðüÿÿÿÿ
+i
+java:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¸áúó
+S
+java:S26966"6Make the enclosing method "static" or remove this set.(†Â¾¨8—‰ÉÏ–.
+X
+java:S26960"6Make the enclosing method "static" or remove this set.(¹Õœúÿÿÿÿ8—‰ÉÏ–.
+X
+java:S2696>"6Make the enclosing method "static" or remove this set.(±Î¹ñúÿÿÿÿ8—‰ÉÏ–.
+m
+java:S3008"WRename this field "DISPLACEMENT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãñðà

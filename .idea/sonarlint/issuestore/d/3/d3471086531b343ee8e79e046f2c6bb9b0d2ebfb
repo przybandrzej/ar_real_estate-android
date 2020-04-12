@@ -1,0 +1,31 @@
+
+@
+java:S11480"#Use a logger to log this exception.(Ç’Çê8š¾Ğ–.
+u
+java:S3008"ZRename this field "UPDATE_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™’ğüÿÿÿÿ
+t
+java:S3008"WRename this field "DISPLACEMENT" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãñğà8š¾Ğ–.
+i
+java:S3008"SRename this field "INSTANCE" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(üØ—Ø
+R
+java:S2696E"6Make the enclosing method "static" or remove this set.(©”Á,8š¾Ğ–.
+
+java:S1450"_Remove the "isNetworkEnabled" field and declare it as a local variable in the relevant methods.(æ¤Àçşÿÿÿÿ8š¾Ğ–.
+}
+java:S1450"[Remove the "isGPSEnabled" field and declare it as a local variable in the relevant methods.(Ö¤šùûÿÿÿÿ8š¾Ğ–.
+@
+java:S1148t"#Use a logger to log this exception.(Ç’Çê8š¾Ğ–.
+v
+java:S3008"[Rename this field "FASTEST_INTERVAL" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¾³Íşÿÿÿÿ
+X
+java:S2696="6Make the enclosing method "static" or remove this set.(¹Õœúÿÿÿÿ8š¾Ğ–.
+X
+java:S2696;"6Make the enclosing method "static" or remove this set.(ñèœ†úÿÿÿÿ8š¾Ğ–.
+S
+java:S2696C"6Make the enclosing method "static" or remove this set.(†Â¾¨8š¾Ğ–.
+S
+java:S2696W"6Make the enclosing method "static" or remove this set.(ˆúë8š¾Ğ–.
+S
+java:S2696K"6Make the enclosing method "static" or remove this set.(…€È²8š¾Ğ–.
+I
+java:S1068"'Remove this unused "TAG" private field.(Ûâ§Óøÿÿÿÿ8š¾Ğ–.

@@ -36,8 +36,6 @@ Aapp/src/test/java/com/arlab/realestate/data/DataProviderTest.java,a\b\abaea497
 Tapp/src/main/java/com/arlab/realestate/android/extension/ArchitectViewExtension.java,1\5\15a4bc8b73c1536e3627082de9efe75db2cbf9f9
 €
 Papp/src/main/java/com/arlab/realestate/android/activity/OfferDetailActivity.java,8\a\8af3ac42bddbaf51e765425d1d867975062045bf
-y
-Iapp/src/main/java/com/arlab/realestate/android/util/LocationProvider.java,2\5\25e2ec09d76edc33eebfae8bb3f041378cb0fe86
 w
 Gapp/src/main/java/com/arlab/realestate/android/activity/ArActivity.java,b\c\bc50a4578a468a5d49296404861c51bededee892
 y
@@ -50,3 +48,13 @@ H
 app/libs/wikitudesdk.aar,9\3\93764f45847c98a73d51550fd6e7dc720cf422ef
 u
 Eapp/src/main/java/com/arlab/realestate/android/util/CameraConfig.java,c\0\c02d0012172ea61fe476ce1b86ca1f34dc5de9da
+†
+Vapp/src/main/java/com/arlab/realestate/android/util/location/BaseLocationStrategy.java,9\6\96c69c18f08433f599054d017ad991499d4e76c6
+“
+capp/src/main/java/com/arlab/realestate/android/util/location/GooglePlayServiceLocationStrategy.java,2\a\2a869d50e23214623db4d275799bcea0a9742235
+‰
+Yapp/src/main/java/com/arlab/realestate/android/util/location/LocationChangesListener.java,2\4\24c06d2584d8d466c5c63480d3fc6ef5f2f7068f
+
+Oapp/src/main/java/com/arlab/realestate/android/util/location/LocationUtils.java,f\0\f04e58cdb6c6296de99fd41741d68ffc0eaf25c5
+‰
+Yapp/src/main/java/com/arlab/realestate/android/util/location/LocationManagerStrategy.java,d\3\d3471086531b343ee8e79e046f2c6bb9b0d2ebfb
