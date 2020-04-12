@@ -36,8 +36,6 @@ Aapp/src/test/java/com/arlab/realestate/data/DataProviderTest.java,a\b\abaea497
 Tapp/src/main/java/com/arlab/realestate/android/extension/ArchitectViewExtension.java,1\5\15a4bc8b73c1536e3627082de9efe75db2cbf9f9
 €
 Papp/src/main/java/com/arlab/realestate/android/activity/OfferDetailActivity.java,8\a\8af3ac42bddbaf51e765425d1d867975062045bf
-y
-Iapp/src/main/java/com/arlab/realestate/android/util/LocationProvider.java,2\5\25e2ec09d76edc33eebfae8bb3f041378cb0fe86
 w
 Gapp/src/main/java/com/arlab/realestate/android/activity/ArActivity.java,b\c\bc50a4578a468a5d49296404861c51bededee892
 y

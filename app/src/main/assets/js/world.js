@@ -197,6 +197,7 @@ let World = {
         alert(error);
     },
 
+    // TODO change to a JAVA async displayed message (e.g. TOAST)
     /* Updates status message shown in the bottom right corner. */
     updateStatusMessage: function updateStatusMessageFn(message, time) {
         $("#status-message").html(message);
