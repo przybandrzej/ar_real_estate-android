@@ -1,6 +1,6 @@
 # AR Real Estate
 
-### Current version: RELEASE 0.6
+### Current version: RELEASE 0.5
  
 This is an Andoid app for my Bachelor degree project. It is just a basic implementation - a proof of concept. 
 
