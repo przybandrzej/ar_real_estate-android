@@ -24,12 +24,13 @@ But there is no problem with compiling to lower versions. Just make sure your de
 ### Set up and install
 
 1. Find file `assets/location-sources/offers-0_1.js` and fill it with locations from your area like the given examples (you can delete them).
-2. Make sure your device supports Ar Core (min Android 7.0).
-3. Check if ***min SDK*** and ***target SDK*** in `buld.gradle` corresponds to your device's SDK version. If not you can try to change it.
-4. Build and install.
-5. Turn on location service, Wi-Fi or mobile data in your device.
-6. Grant the permissions to use camera, internet and location.
-7. Go out and try it out!
+2. If you want to display a custom image in the OfferDetailActivity, put them in the `assets/img-offers` directory and add its name to the JSON under the `"image"` node.
+3. Make sure your device supports Ar Core (min Android 7.0).
+4. Check if ***min SDK*** and ***target SDK*** in `buld.gradle` corresponds to your device's SDK version. If not you can try to change it.
+5. Build and install.
+6. Turn on location service, Wi-Fi or mobile data in your device.
+7. Grant the permissions to use camera, internet and location.
+8. Go out and try it out!
 
 ### IMPORTANT NOTE!
 
