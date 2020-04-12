@@ -16,5 +16,10 @@
     margin-top: 8px;
 }
 
+.showStatusMessage {
+    padding: 4px;
+    background-color: black;
+    color: white;
+}
 
 

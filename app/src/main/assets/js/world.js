@@ -40,7 +40,7 @@ let World = {
         World.loadPoisFromJsonData(myJsonData);
         World.isRequestingData = false;
         World.initiallyLoadedData = true;
-        World.updateStatusMessage(clear, 0);
+        World.updateStatusMessage(clear);
     },
 
     loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
@@ -197,24 +197,19 @@ let World = {
         alert(error);
     },
 
-    // TODO change to a JAVA async displayed message (e.g. TOAST)
     /* Updates status message shown in the bottom right corner. */
     updateStatusMessage: function updateStatusMessageFn(message, time) {
+        $("#status-message").addClass('showStatusMessage');
         $("#status-message").html(message);
         if(time !== 0) {
             setTimeout(function () {
                 $("#status-message").html(clear);
-            }, 5000);
+                $("#status-message").removeClass('showStatusMessage');
+            }, time);
+        } else {
+            $("#status-message").removeClass('showStatusMessage');
         }
     },
-
-    setMessageAsync: async function setMessageAsyncFn(time) {
-        await new Promise(resolve => {
-            setTimeout(function () {
-                resolve()
-            }, time);
-        });
-    }
 };
 
 /* Forward locationChanges to custom function. */
