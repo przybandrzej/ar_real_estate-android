@@ -31,6 +31,10 @@ But there is no problem with compiling to lower versions. Just make sure your de
 6. Grant the permissions to use camera, internet and location.
 7. Go out and try it out!
 
+### IMPORTANT NOTE!
+
+Due to occasional problems with providing altitude by some devices (sometimes they just set the altitude to 0m above the sea level), I decided to 'fake' the altitude. I manually set the user's altitude to 0 and the offer's markre's altitude to 3m, so the markers are always a little above the user. If you want you can try other approach.
+
 ### Here's a demo:
 
 YouTube link: https://youtu.be/UEC7nVfK9UA 
