@@ -68,6 +68,72 @@ const myJsonData = {
                 "deposit": 2500,
                 "extraCosts": 0
             }
+        },
+        {
+            "id": "O0004",
+            "title": "Dom rodzinny",
+            "description": "This is a description",
+            "rooms": 8,
+            "area": 400,
+            "buildingType": "dom",
+            "offerType": "rental",
+            "image": "IMG_OFFER_O0004.jpg",
+            "location": {
+                "latitude": 52.121272,
+                "longitude": 16.129415,
+                "altitude": 3
+            },
+            "pricing": {
+                "type": "monthly",
+                "price": 5000,
+                "currency": "PLN",
+                "deposit": 10000,
+                "extraCosts": 0
+            }
+        },
+        {
+            "id": "O0005",
+            "title": "Dom rodzinny",
+            "description": "This is a description",
+            "rooms": 8,
+            "area": 400,
+            "buildingType": "dom",
+            "offerType": "sprzedaż",
+            "image": "IMG_OFFER_O0005.jpg",
+            "location": {
+                "latitude": 52.120443,
+                "longitude": 16.128870,
+                "altitude": 3
+            },
+            "pricing": {
+                "type": "jednorazowa",
+                "price": 450000,
+                "currency": "PLN",
+                "deposit": 100000,
+                "extraCosts": 0
+            }
+        },
+        {
+            "id": "O0006",
+            "title": "Dom rodzinny",
+            "description": "This is a description",
+            "rooms": 8,
+            "area": 400,
+            "buildingType": "dom",
+            "offerType": "sprzedaż",
+            "image": "IMG_OFFER_O0006.jpg",
+            "location": {
+                "latitude": 52.120002,
+                "longitude": 16.129980,
+                "altitude": 3
+            },
+            "pricing": {
+                "type": "jednorazowa",
+                "price": 450000,
+                "currency": "PLN",
+                "deposit": 100000,
+                "extraCosts": 0
+            }
         }
     ]
 };
