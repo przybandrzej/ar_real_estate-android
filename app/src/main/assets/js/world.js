@@ -1,3 +1,9 @@
+const whereYouAre = "Trying to find out where you are...";
+const requestingData = "Requesting Data...";
+const unknownLocation = 'Unknown user-location.';
+const requestPending = 'Already requesting places...';
+const clear = '';
+
 /* Implementation of AR-Experience (aka "World"). */
 let World = {
     maxRangeMeters: 200,
@@ -21,19 +27,20 @@ let World = {
             if (World.userLocation) {
                 World.requestDataFromLocal();
             } else {
-                World.updateStatusMessage('Unknown user-location.', true);
+                World.updateStatusMessage(unknownLocation, 2000);
             }
         } else {
-            World.updateStatusMessage('Already requesting places...', true);
+            World.updateStatusMessage(requestPending, 1000);
         }
     },
 
     requestDataFromLocal: function requestDataFromLocalFn() {
         World.isRequestingData = true;
-        World.updateStatusMessage('Requesting places...');
+        World.updateStatusMessage(requestingData);
         World.loadPoisFromJsonData(myJsonData);
         World.isRequestingData = false;
         World.initiallyLoadedData = true;
+        World.updateStatusMessage(clear);
     },
 
     loadPoisFromJsonData: function loadPoisFromJsonDataFn(poiData) {
@@ -190,15 +197,18 @@ let World = {
         alert(error);
     },
 
-    /* Updates status message shown in small "i"-button aligned bottom center. */
-    updateStatusMessage: function updateStatusMessageFn(message, isWarning) {
-        let themeToUse = isWarning ? "e" : "c";
-        let iconToUse = isWarning ? "alert" : "info";
+    /* Updates status message shown in the bottom right corner. */
+    updateStatusMessage: function updateStatusMessageFn(message, time) {
+        $("#status-message").addClass('showStatusMessage');
         $("#status-message").html(message);
-        $("#popupInfoButton").buttonMarkup({
-            theme: themeToUse,
-            icon: iconToUse
-        });
+        if(time !== 0) {
+            setTimeout(function () {
+                $("#status-message").html(clear);
+                $("#status-message").removeClass('showStatusMessage');
+            }, time);
+        } else {
+            $("#status-message").removeClass('showStatusMessage');
+        }
     },
 };
 
@@ -207,3 +217,5 @@ AR.context.onLocationChanged = World.locationChanged;
 
 /* Forward clicks in empty area to World. */
 AR.context.onScreenClick = World.onScreenClick;
+
+World.updateStatusMessage(whereYouAre, 0);
