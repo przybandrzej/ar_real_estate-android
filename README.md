@@ -10,8 +10,8 @@ The Location Providing Alorithm is well optimized and set to provide the most ac
 
 ### Technologies:
 
-    Wikitude AR (Wikitude Android JavaScript API) - the whole AR world behaviour implementation
-    Java for Android Native features and device management (location providing, camera operating, event handling, etc.)
+  - Wikitude AR (Wikitude Android JavaScript API) - the whole AR world behaviour implementation
+  - Java for Android Native features and device management (location providing, camera operating, event handling, etc.)
 
 ### Here's a demo:
 
