@@ -4,7 +4,13 @@
  
 This is an Andoid app for my Bachelor degree project. It is just a basic implementation - a proof of concept. 
 
-The app uses Augmented Reality to display real estate offers on buildings near the user.
+The app uses Augmented Reality to display real estate offers on buildings near the user. 
+
+The markers displayed at given location contain basic info about the offers like title, costs and real-time distance (meters) to the user. Their size depends on the distance - the further the smaller they appear.
+
+There is also a radar in the upper-left corner that shows dots corresponding to the markers in the view range (200m).
+
+The left panel "More" contains info about view range, visible places and their addresses and info about user's current location. 
 
 The Location Providing Alorithm is well optimized and set to provide the most accurate location (delta 0.5-2 meters) in the shortest time. Due to device's gear and software limitations the update time may vary between devices and it is rather impossible to deliver updates in iterval shorter that 5 seconds. The device used for building this application is **Huawei Mate 20 Pro** with **Android 9** and the location updates are provided in every 5-7 seconds.
 
