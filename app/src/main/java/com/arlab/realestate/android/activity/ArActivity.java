@@ -116,6 +116,7 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
   public void onLocationChanged(Location location) {
     DataProvider.setUserLocation(location);
     float accuracy = location.hasAccuracy() ? location.getAccuracy() : 200;
+    Log.e("Location update", String.format("Location[ %.6f, %.6f ]", location.getLatitude(), location.getLongitude()));
     architectView.setLocation(location.getLatitude(), location.getLongitude(), ALTITUDE_CONST, accuracy);
   }
 
