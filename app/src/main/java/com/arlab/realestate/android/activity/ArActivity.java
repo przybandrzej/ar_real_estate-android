@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.arlab.realestate.R;
 import com.arlab.realestate.android.util.ArchitectJavaScriptListener;
 import com.arlab.realestate.android.util.CameraConfig;
+import com.arlab.realestate.android.util.LocationLogger;
 import com.arlab.realestate.android.util.location.BaseLocationStrategy;
 import com.arlab.realestate.android.util.location.LocationChangesListener;
 import com.arlab.realestate.android.util.location.LocationUtils;
@@ -20,6 +21,8 @@ import com.wikitude.architect.ArchitectStartupConfiguration;
 import com.wikitude.architect.ArchitectView;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ArActivity extends AppCompatActivity implements LocationChangesListener {
 
@@ -116,7 +119,10 @@ public class ArActivity extends AppCompatActivity implements LocationChangesList
   public void onLocationChanged(Location location) {
     DataProvider.setUserLocation(location);
     float accuracy = location.hasAccuracy() ? location.getAccuracy() : 200;
-    Log.e("Location update", String.format("Location[ %.6f, %.6f ]", location.getLatitude(), location.getLongitude()));
+    LocationLogger.log(location, this);
+    Log.e("Location", String.format("%s, %.6f, %.6f",
+        LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss.SSS dd-MM-yyyy")),
+        location.getLatitude(), location.getLongitude()));
     architectView.setLocation(location.getLatitude(), location.getLongitude(), ALTITUDE_CONST, accuracy);
   }
 
